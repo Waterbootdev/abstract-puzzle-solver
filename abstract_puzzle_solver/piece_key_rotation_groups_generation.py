@@ -37,4 +37,6 @@ def generate_rotation_groups(rotation: Callable[[str], str]=rotate_piece_ccw) ->
     return groups
 
 PIECE_KEYS_ROTATIONS: Dict[str,Tuple[List[str], List[str]]] = generate_rotation_groups()
+PIECE_KEYS_ROTATIONS_SHORT: Dict[str, List[str]] = {key: value[1] for key, value in PIECE_KEYS_ROTATIONS.items()}
+
 
