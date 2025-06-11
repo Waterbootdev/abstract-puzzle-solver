@@ -1,7 +1,7 @@
 from coordinate import Coordinate
 from directions import List, Directions
 from edge import Edge
-from typing import Any
+from typing import Self
 
 
 class BasePiece:
@@ -15,9 +15,9 @@ class BasePiece:
         self.directions = directions
         self.coordinate = coordinate
         self.edges = edges
-        self.links: List[Any|None] = [None, None, None, None]
-        self.forward: Any|None = None
-        self.backward: Any|None = None
+        self.links: List[Self|None] = [None, None, None, None]
+        self.forward: Self|None = None
+        self.backward: Self|None = None
 
     def __repr__(self) -> str:
         return f'{self.frame_index}:{self.rotation_index}:{self.coordinate}:{self.rotated}:{self.directions}'
