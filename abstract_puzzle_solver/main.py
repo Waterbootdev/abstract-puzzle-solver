@@ -3,12 +3,12 @@ from piece_key_piece_helper import piece_key_groups_counts_sum
 from piece_key_counts import PieceKeyCounts
 from piece_key_counts_piece_generator import PieceKeyCountsPieceGenerator, PieceKeyCountsPiece
 from iter_piece_key_counts_piece import IterPieceKeyCountsPiece
-from typing import List
+from typing import List, Set
 from piece_keys import PIECE_KEYS
 
 def main():
     width = 6
-    height = 6
+    height = 5
 
     random: RandomPieceGenerator = RandomPieceGenerator(width, height, firts_frame_piece_keys=[PIECE_KEYS[0]], piece_keys=[p for p in PIECE_KEYS if '0' not in p])
 
@@ -21,6 +21,9 @@ def main():
 
     solution_count = 0
 
+    lasts: Set[str] = set()
+
+
     if len(pieces) > 0:    
         stack:List[IterPieceKeyCountsPiece] = [IterPieceKeyCountsPiece(pieces[0])]
 
@@ -29,12 +32,14 @@ def main():
             if piece.next():
                 forward: PieceKeyCountsPiece|None = piece.piece_key_counts_piece.forward
                 if forward:
-                    stack.append(IterPieceKeyCountsPiece(forward))
+                    piece:IterPieceKeyCountsPiece = IterPieceKeyCountsPiece(forward)
+                    stack.append(piece)
                 else:
                     solution_count += 1
+                    lasts.add(piece.piece_key_counts[0].piece_key_group_count.piece_groups_key)
+                    print(len(lasts))
             else:
                 stack.pop()
 
-    print(solution_count)
-
+ 
 main()

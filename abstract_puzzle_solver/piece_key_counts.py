@@ -17,6 +17,13 @@ class PieceKeyCounts:
                 self.initial_piece_key_counts[piece_key] = PieceKeyCount(piece_key, initial_piece_key_groups_count)
 
         self.asterisk_piece_key_counts: Dict[str, Dict[str, List[PieceKeyCount]]] = {k1:{k2:[self.initial_piece_key_counts[v3] for v3 in v2] for k2,v2 in v1.items()} for k1, v1 in EDGES_TO_ASTERISK.items()}
-                
+
+    def ge_cuurrent_piece_key_counts(self) -> int:
+        def current_count(piece_key_count: PieceKeyGroupCount) -> int:
+            return piece_key_count.current_count
+        
+        return sum(map(current_count,self.initial_piece_key_groups_counts.values()))
+        
+
 if __name__ == '__main__':
     pass

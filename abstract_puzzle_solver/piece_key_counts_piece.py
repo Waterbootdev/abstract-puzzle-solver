@@ -2,7 +2,6 @@ from piece_key_constants import ASTERISK_PIECE_KEY
 from base_piece import BasePiece, Directions, Coordinate
 from edge import Edge, OPPOSITE_EDGE 
 from rotation_matrix import INDEX_ROTATION_MATRIX
-from piece_keys import PIECE_KEYS_IDENTITY
 from opposite_piece_keys import OPPOSITE_PIECE_KEYS
 from piece_key_count import PieceKeyCount
 from typing import List, Dict, Self
@@ -22,7 +21,7 @@ class PieceKeyCountsPiece(BasePiece):
         return self.rotated_piece_key()
 
     def rotated_piece_key(self) -> str:
-        return PIECE_KEYS_IDENTITY[''.join([self.piece_key[i] for i in self.rotation])]
+        return ''.join([self.piece_key[i] for i in self.rotation])
        
     def get_opposite_key_part(self, rotation_index: int, edge: Edge) -> str:
         return self.opposite_piece_key[self.rotation_matrix[rotation_index][OPPOSITE_EDGE[edge]]]
