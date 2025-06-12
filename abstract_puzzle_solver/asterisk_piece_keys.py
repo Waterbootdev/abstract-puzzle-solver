@@ -1,7 +1,6 @@
-from abstract_puzzle_generator.edge import EDGES, Edge
+from abstract_puzzle_generator.edge import Edge, EDGES
 from abstract_puzzle_generator.piece_keys import PIECE_KEYS
 from typing import List, Dict, Set
-
 
 def asterisk_from_edges(edges: List[Edge], key: str) -> str:
 
@@ -24,7 +23,6 @@ def asterisk_to_piece_keys(edges: List[Edge]) -> Dict[str, List[str]]:
     return piece_keys_from_asterisk
 
 EDGES_TO_ASTERISK: Dict[str, Dict[str, List[str]]] = dict(zip(EDGES.keys(), map(asterisk_to_piece_keys, EDGES.values())))
-
 
 if __name__ == '__main__':
   pass

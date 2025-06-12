@@ -5,6 +5,6 @@ class PieceKeyGroupCount:
         self.initial_count = initial_count
         self.current_count = initial_count
     def __repr__(self) -> str:
-        return f'{self.current_count}/{self.initial_count}'
+        return f'{self.piece_groups_key}:{self.current_count}/{self.initial_count}'
     
 
