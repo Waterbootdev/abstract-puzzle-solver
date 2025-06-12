@@ -2,10 +2,10 @@ from random_piece_key_piece import List, RandomPieceKeyPiece, Directions, Coordi
 from piece_generator import PieceGenerator
 from print_positions import PrintPositions, DEFAULT_PRINT_POSITIONS
 from opposite_piece_keys import DEFAULT_OPPOSITE_KEY
-
+from piece_keys import PIECE_KEYS
 class RandomPieceGenerator(PieceGenerator[RandomPieceKeyPiece]):
     
-    def __init__(self, number_columns: int, number_rows: int, print_positions: PrintPositions=DEFAULT_PRINT_POSITIONS, opposite_key: str=DEFAULT_OPPOSITE_KEY) -> None:
+    def __init__(self, number_columns: int, number_rows: int, print_positions: PrintPositions=DEFAULT_PRINT_POSITIONS, opposite_key: str=DEFAULT_OPPOSITE_KEY, firts_frame_piece_keys: List[str]=PIECE_KEYS, piece_keys: List[str]=PIECE_KEYS) -> None:
        
         if number_rows > number_columns or number_columns < 0:
             raise ValueError() 
@@ -13,7 +13,10 @@ class RandomPieceGenerator(PieceGenerator[RandomPieceKeyPiece]):
         super().__init__(number_columns + 2, number_rows + 2)
         
         def new_piece(frame_index: int, rotation_index: int, rotated: bool, directions: List[Directions], coordinate: Coordinate, edges: List[Edge]) -> RandomPieceKeyPiece:
-            return RandomPieceKeyPiece(opposite_key, print_positions.print_positions, frame_index, rotation_index, rotated, directions, coordinate, edges)
+            if frame_index == 0:
+                return RandomPieceKeyPiece(opposite_key, print_positions.print_positions, frame_index, rotation_index, rotated, directions, coordinate, edges,firts_frame_piece_keys)
+            else:
+                return RandomPieceKeyPiece(opposite_key, print_positions.print_positions, frame_index, rotation_index, rotated, directions, coordinate, edges, piece_keys)
 
         spiral: List[RandomPieceKeyPiece] = self.generate(new_piece)
        

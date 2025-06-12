@@ -8,11 +8,18 @@ class IterPieceKeyCountsPiece:
 
     def next(self) -> bool:
         if self.index < len(self.piece_key_counts):
+            if self.index > 0:
+                piece_key_count = self.piece_key_counts[self.index -1]
+                piece_key_count.piece_key_group_count.current_count += 1
             piece_key_count = self.piece_key_counts[self.index]
+            piece_key_count.piece_key_group_count.current_count -= 1
             self.piece_key_counts_piece.set_piece_key(piece_key_count.piece_key)
             self.index += 1
             return True
         else:
+            if self.index > 0:
+                piece_key_count = self.piece_key_counts[self.index - 1]
+                piece_key_count.piece_key_group_count.current_count += 1
             return False
 
     def __repr__(self) -> str:
