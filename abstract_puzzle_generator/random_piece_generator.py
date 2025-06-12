@@ -1,10 +1,11 @@
 from random_piece_key_piece import List, RandomPieceKeyPiece, Directions, Coordinate, PieceKeyPiece, Edge
 from piece_generator import PieceGenerator
-from print_positions import PrintPositions
+from print_positions import PrintPositions, DEFAULT_PRINT_POSITIONS
+from opposite_piece_keys import DEFAULT_OPPOSITE_KEY
 
 class RandomPieceGenerator(PieceGenerator[RandomPieceKeyPiece]):
     
-    def __init__(self, number_columns: int, number_rows: int, print_positions: PrintPositions, opposite_key: str) -> None:
+    def __init__(self, number_columns: int, number_rows: int, print_positions: PrintPositions=DEFAULT_PRINT_POSITIONS, opposite_key: str=DEFAULT_OPPOSITE_KEY) -> None:
        
         if number_rows > number_columns or number_columns < 0:
             raise ValueError() 

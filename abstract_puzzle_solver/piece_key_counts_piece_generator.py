@@ -1,3 +1,4 @@
+from abstract_puzzle_generator.opposite_piece_keys import DEFAULT_OPPOSITE_KEY
 from abstract_puzzle_generator.piece_generator import PieceGenerator
 from abstract_puzzle_generator.base_piece import Directions, Coordinate, List
 from abstract_puzzle_generator.edge import Edge
@@ -6,7 +7,7 @@ from piece_key_count import PieceKeyCount
 from typing import Dict
 
 class PieceKeyCountsPieceGenerator(PieceGenerator[PieceKeyCountsPiece]):
-    def __init__(self, width: int, height: int, opposite_key: str, first_frame_piece_keys: List[str], piece_key_counts: Dict[str, Dict[str, List[PieceKeyCount]]]) -> None:
+    def __init__(self, width: int, height: int, first_frame_piece_keys: List[str], piece_key_counts: Dict[str, Dict[str, List[PieceKeyCount]]], opposite_key: str = DEFAULT_OPPOSITE_KEY) -> None:
         super().__init__(width, height)
         
         def get_new_base_piece(frame_index: int, rotation_index: int, rotated: bool, directions: List[Directions], coordinate: Coordinate, edges: List[Edge]) -> PieceKeyCountsPiece:
