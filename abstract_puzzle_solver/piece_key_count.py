@@ -1,4 +1,4 @@
-from abstract_puzzle_generator.piece_key_group_count import PieceKeyGroupCount
+from piece_key_group_count import PieceKeyGroupCount
 
 class PieceKeyCount:
     def __init__(self, piece_key: str, piece_key_group_count: PieceKeyGroupCount) -> None:
