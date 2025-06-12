@@ -1,9 +1,9 @@
-from abstract_puzzle_generator.piece_key_constants import ASTERISK_PIECE_KEY
-from abstract_puzzle_generator.base_piece import BasePiece, Directions, Coordinate
-from abstract_puzzle_generator.edge import Edge, OPPOSITE_EDGE 
-from abstract_puzzle_generator.rotation_matrix import INDEX_ROTATION_MATRIX
-from abstract_puzzle_generator.piece_keys import PIECE_KEYS_IDENTITY
-from abstract_puzzle_generator.opposite_piece_keys import OPPOSITE_PIECE_KEYS
+from piece_key_constants import ASTERISK_PIECE_KEY
+from base_piece import BasePiece, Directions, Coordinate
+from edge import Edge, OPPOSITE_EDGE 
+from rotation_matrix import INDEX_ROTATION_MATRIX
+from piece_keys import PIECE_KEYS_IDENTITY
+from opposite_piece_keys import OPPOSITE_PIECE_KEYS
 from piece_key_count import PieceKeyCount
 from typing import List, Dict, Self
 

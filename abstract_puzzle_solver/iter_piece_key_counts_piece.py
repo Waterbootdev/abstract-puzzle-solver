@@ -1,4 +1,4 @@
-from abstract_puzzle_solver.piece_key_counts_piece import PieceKeyCountsPiece
+from piece_key_counts_piece import PieceKeyCountsPiece
 
 class IterPieceKeyCountsPiece:
     def __init__(self, piece_key_counts_piece: PieceKeyCountsPiece) -> None:

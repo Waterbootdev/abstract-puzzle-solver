@@ -1,5 +1,5 @@
-from abstract_puzzle_generator.random_piece_generator import RandomPieceGenerator
-from abstract_puzzle_generator.piece_key_piece_helper import piece_key_groups_counts_sum
+from random_piece_generator import RandomPieceGenerator
+from piece_key_piece_helper import piece_key_groups_counts_sum
 from piece_key_counts import PieceKeyCounts
 from piece_key_counts_piece_generator import PieceKeyCountsPieceGenerator, PieceKeyCountsPiece
 from iter_piece_key_counts_piece import IterPieceKeyCountsPiece
@@ -17,7 +17,7 @@ def main():
 
     generated_pieces: PieceKeyCountsPieceGenerator = PieceKeyCountsPieceGenerator(width, height, first_frame, counts.asterisk_piece_key_counts)
 
-    pieces = generated_pieces.pieces
+    pieces : List[PieceKeyCountsPiece] = generated_pieces.pieces
 
     solution_count = 0
 

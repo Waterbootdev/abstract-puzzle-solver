@@ -1,5 +1,5 @@
-from abstract_puzzle_generator.edge import Edge, EDGES
-from abstract_puzzle_generator.piece_keys import PIECE_KEYS
+from edge import Edge, EDGES
+from piece_keys import PIECE_KEYS
 from typing import List, Dict, Set
 
 def asterisk_from_edges(edges: List[Edge], key: str) -> str:

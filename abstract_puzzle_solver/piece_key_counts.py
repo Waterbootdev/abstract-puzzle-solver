@@ -1,6 +1,6 @@
 from piece_key_group_count  import PieceKeyGroupCount
 from piece_key_count import PieceKeyCount
-from abstract_puzzle_generator.piece_key_rotation_groups_generation import PIECE_KEYS_ROTATIONS_SHORT
+from piece_key_rotation_groups_generation import PIECE_KEYS_ROTATIONS_SHORT
 
 from asterisk_piece_keys import EDGES_TO_ASTERISK
 from typing import Dict,List

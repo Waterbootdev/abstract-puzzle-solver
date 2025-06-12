@@ -1,7 +1,7 @@
-from abstract_puzzle_generator.opposite_piece_keys import DEFAULT_OPPOSITE_KEY
-from abstract_puzzle_generator.piece_generator import PieceGenerator
-from abstract_puzzle_generator.base_piece import Directions, Coordinate, List
-from abstract_puzzle_generator.edge import Edge
+from opposite_piece_keys import DEFAULT_OPPOSITE_KEY
+from piece_generator import PieceGenerator
+from base_piece import Directions, Coordinate, List
+from edge import Edge
 from piece_key_counts_piece import PieceKeyCountsPiece
 from piece_key_count import PieceKeyCount
 from typing import Dict
