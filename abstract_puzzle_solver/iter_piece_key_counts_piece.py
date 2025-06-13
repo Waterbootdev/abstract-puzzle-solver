@@ -1,12 +1,16 @@
 from piece_key_counts_piece import PieceKeyCountsPiece
 
 class IterPieceKeyCountsPiece:
-    def __init__(self, piece_key_counts_piece: PieceKeyCountsPiece) -> None:
+    def __init__(self, piece_key_counts_piece: PieceKeyCountsPiece, solutions_count: int) -> None:
         self.piece_key_counts_piece = piece_key_counts_piece
         self.piece_key_counts = [count for count in piece_key_counts_piece.current_piece_key_counts() if count.piece_key_group_count.current_count > 0]
         self.index = 0
+        self.solutions_count = solutions_count
+        self.piece_key_counts_piece.init_down_keys()
+        self.insert_index = 0
 
     def next(self) -> bool:
+
         if self.index < len(self.piece_key_counts):
             if self.index > 0:
                 piece_key_count = self.piece_key_counts[self.index -1]
@@ -15,6 +19,7 @@ class IterPieceKeyCountsPiece:
             piece_key_count.piece_key_group_count.current_count -= 1
             self.piece_key_counts_piece.set_piece_key(piece_key_count.piece_key)
             self.index += 1
+
             return True
         else:
             if self.index > 0:

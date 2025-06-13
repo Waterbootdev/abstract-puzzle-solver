@@ -1,10 +1,12 @@
-from piece_key_constants import ASTERISK_PIECE_KEY
+from piece_key_constants import ASTERISK_PIECE_KEY, PIECE_KEY_BASE
 from base_piece import BasePiece, Directions, Coordinate
 from edge import Edge, OPPOSITE_EDGE 
 from rotation_matrix import INDEX_ROTATION_MATRIX
 from opposite_piece_keys import OPPOSITE_PIECE_KEYS
 from piece_key_count import PieceKeyCount
-from typing import List, Dict, Self
+from typing import List, Dict, Self, Tuple
+from trie import TrieNode, insert_key, check_key
+
 
 class PieceKeyCountsPiece(BasePiece):
     def __init__(self, piece_key_counts: Dict[str, Dict[str, List[PieceKeyCount]]], opposite_key: str, frame_index: int, rotation_index: int, rotated: bool, directions: List[Directions], coordinate: Coordinate, edges: List[Edge]) -> None:
@@ -16,9 +18,34 @@ class PieceKeyCountsPiece(BasePiece):
         self.rotation_matrix = rotation_matrix
         self.rotation = rotation_matrix[0]
         self.piece_key_counts = piece_key_counts[str(self.edges)]
-       
+        self.down_keys: List[int] = []
+        self.pieces: List[PieceKeyCountsPiece] = []
+        self.root = TrieNode(PIECE_KEY_BASE)
+        
+    
     def __repr__(self) -> str:
         return self.rotated_piece_key()
+    
+    def init_down_keys(self) -> None:
+        for i, piece in enumerate(self.pieces[:-1]):
+            self.down_keys[i] = piece.part(Edge.DOWN)
+        
+    def insert(self, index: int) -> Tuple[int, List[int]]:
+
+        return insert_key(self.root, PIECE_KEY_BASE, self.down_keys, index)
+
+    def check(self) -> Tuple[bool, TrieNode|None]:
+
+        if self.rotated:
+            self.down_keys[-1] = self.part(Edge.DOWN)
+        else:
+            self.down_keys[-1] = self.part(Edge.RIGHT)
+            self.down_keys[-2] = self.part(Edge.DOWN)
+
+        return check_key(self.root, self.down_keys)
+
+    def part(self,edge: Edge) -> int:
+        return int(self.piece_key[edge])
 
     def rotated_piece_key(self) -> str:
         return ''.join([self.piece_key[i] for i in self.rotation])
@@ -46,10 +73,19 @@ class PieceKeyCountsPiece(BasePiece):
     
     def current_piece_key_counts(self) -> List[PieceKeyCount]:
         return self.piece_key_counts[self.asterisk_piece_key()]
-
     
+
+def down_keys(down_keys:List[int], pieces:List[PieceKeyCountsPiece]) -> None:
+        for i, piece in enumerate(pieces):
+           down_keys[i] = int(piece.piece_key[Edge.DOWN])
+
+ 
+
         
-    
 
+
+         
+    
+    
 
     

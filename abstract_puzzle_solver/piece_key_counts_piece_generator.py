@@ -1,5 +1,6 @@
 from opposite_piece_keys import DEFAULT_OPPOSITE_KEY
 from piece_generator import PieceGenerator
+from generate_spiral import generate_not_rotated
 from base_piece import Directions, Coordinate, List
 from edge import Edge
 from piece_key_counts_piece import PieceKeyCountsPiece
@@ -20,8 +21,13 @@ class PieceKeyCountsPieceGenerator(PieceGenerator[PieceKeyCountsPiece]):
 
         self.pieces: List[PieceKeyCountsPiece] = [piece for piece  in self.spiral if piece.frame_index > 0]
 
+        links: List[List[int]] = generate_not_rotated(self.rotated, len(self.spiral), height + 2, self.frame_index)
+
+        assert(len(links) == len(self.spiral))
+
+        for piece, link in zip(self.spiral, links):
+            piece.pieces =[self.spiral[li] for li in link if li >= self.pieces[0].coordinate.index]
+            piece.down_keys = [0] * (len(piece.pieces) + (0 if piece.rotated else 1))
         
 
 
-
-        
