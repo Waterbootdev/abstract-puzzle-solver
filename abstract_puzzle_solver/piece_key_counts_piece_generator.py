@@ -27,7 +27,11 @@ class PieceKeyCountsPieceGenerator(PieceGenerator[PieceKeyCountsPiece]):
 
         for piece, link in zip(self.spiral, links):
             piece.pieces =[self.spiral[li] for li in link if li >= self.pieces[0].coordinate.index]
-            piece.down_keys = [0] * (len(piece.pieces) + (0 if piece.rotated else 1))
+            length = len(piece.pieces)
+            piece.down_keys = [0] * (length + (0 if piece.rotated else 1))
+            if length > 0:
+                del piece.pieces[-1]
+
         
 
 

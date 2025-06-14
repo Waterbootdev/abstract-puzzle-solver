@@ -5,7 +5,7 @@ from rotation_matrix import INDEX_ROTATION_MATRIX
 from opposite_piece_keys import OPPOSITE_PIECE_KEYS
 from piece_key_count import PieceKeyCount
 from typing import List, Dict, Self, Tuple
-from trie import TrieNode, insert_key, check_key
+from trie import TrieNode, insert_key, contains_key
 
 
 class PieceKeyCountsPiece(BasePiece):
@@ -27,14 +27,14 @@ class PieceKeyCountsPiece(BasePiece):
         return self.rotated_piece_key()
     
     def init_down_keys(self) -> None:
-        for i, piece in enumerate(self.pieces[:-1]):
+        for i, piece in enumerate(self.pieces):        
             self.down_keys[i] = piece.part(Edge.DOWN)
         
     def insert(self, index: int) -> Tuple[int, List[int]]:
 
         return insert_key(self.root, PIECE_KEY_BASE, self.down_keys, index)
 
-    def check(self) -> Tuple[bool, TrieNode|None]:
+    def contains(self, index: int) -> Tuple[bool, bool]:
 
         if self.rotated:
             self.down_keys[-1] = self.part(Edge.DOWN)
@@ -42,7 +42,7 @@ class PieceKeyCountsPiece(BasePiece):
             self.down_keys[-1] = self.part(Edge.RIGHT)
             self.down_keys[-2] = self.part(Edge.DOWN)
 
-        return check_key(self.root, self.down_keys)
+        return contains_key(self.root, self.down_keys, index)
 
     def part(self,edge: Edge) -> int:
         return int(self.piece_key[edge])

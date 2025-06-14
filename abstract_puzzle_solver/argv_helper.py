@@ -12,7 +12,7 @@ def cast_number(type: Callable[[str], T], number_str: str, default: T, minimum: 
         return value
         
 def get_from_argvs(current_args: List[str], 
-                   width_def: int = 5, 
+                   width_def: int = 6, 
                    height_def: int = 5) -> tuple[int, int]:
 
 

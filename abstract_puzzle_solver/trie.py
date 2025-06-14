@@ -1,18 +1,25 @@
 from typing import List, Tuple
 
-
 class TrieNode:
-    def __init__(self, max:int, object: List[int]|None = None):
+    def __init__(self, max:int, indexes: List[int]|None = None):
         
-        if max == 0 and object is not None:
-            self.object: List[int] = object
+        if max == 0 and indexes is not None:
+            self.indexes: List[int] = indexes
         else:
             self.childNode: List[TrieNode|None] = [None]*max if max > 0 else LEAF
-        
+
+    def append_indexes(self, index: int) -> bool:
+        assert self.indexes is not None
     
-
+        if index not in self.indexes:
+            self.indexes.append(index)
+            return True
+        else:
+            return False
+    
+        
+        
 LEAF: List[TrieNode|None] = []
-
 
 def insert_key(root:TrieNode, max:int, key:List[int], index: int) -> Tuple[int, List[int]]:
 
@@ -40,11 +47,11 @@ def insert_key(root:TrieNode, max:int, key:List[int], index: int) -> Tuple[int, 
             currentNode.childNode[value] = next_node
             count += 1
     else:
-        next_node.object.append(index)
+        next_node.indexes.append(index)
 
-    return count, next_node.object
+    return count, next_node.indexes
 
-def check_key(root:TrieNode, key:List[int]) -> Tuple[bool, TrieNode|None]:
+def contains_key(root:TrieNode, key:List[int], index: int) -> Tuple[bool, bool]:
 
     currentNode:TrieNode = root
 
@@ -54,13 +61,11 @@ def check_key(root:TrieNode, key:List[int]) -> Tuple[bool, TrieNode|None]:
 
         if next_node is None:
 
-            return False, None
+            return False, False
 
         currentNode = next_node
     
-    return True, currentNode
-
-
+    return True, currentNode.append_indexes(index)
 
 def insert_key_list(root:TrieNode, max_list:List[int], key:List[int], index:int) -> Tuple[int, int]:
 
@@ -80,6 +85,6 @@ def insert_key_list(root:TrieNode, max_list:List[int], key:List[int], index:int)
 
         currentNode = next_node
 
-    return count, currentNode.object[0]
+    return count, currentNode.indexes[0]
 
    
