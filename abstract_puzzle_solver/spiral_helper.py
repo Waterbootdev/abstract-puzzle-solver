@@ -7,7 +7,10 @@ from typing import Tuple
 from edge import Edge, LEFT_UP, LEFT_UP_RIGHT, LEFT_UP_DOWN, LEFT_UP_RIGHT_DOWN
 
 def generate_rotated(width: int, height: int, length: int) -> List[bool]:
-   
+
+    if height > width or width < 2 or height < 2:
+        raise Exception()
+    
     right = width
     down = height - 1
     left = width - 1

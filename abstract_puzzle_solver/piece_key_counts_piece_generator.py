@@ -1,6 +1,6 @@
 from opposite_piece_keys import DEFAULT_OPPOSITE_KEY
 from piece_generator import PieceGenerator
-from generate_spiral import generate_not_rotated
+from generate_not_rotated import generate_not_rotated
 from base_piece import Directions, Coordinate, List
 from edge import Edge
 from piece_key_counts_piece import PieceKeyCountsPiece
