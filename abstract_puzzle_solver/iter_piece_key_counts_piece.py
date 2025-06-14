@@ -47,8 +47,8 @@ class IterPieceKeyCountsPiece:
 
             self.contaned = contaned
         
-            return contaned and not appended
-        
+            return contaned and not appended # if False else False
+    
         else:
             self.contaned = False
             return False

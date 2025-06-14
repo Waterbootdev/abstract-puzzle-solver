@@ -47,7 +47,7 @@ def insert_key(root:TrieNode, max:int, key:List[int], index: int) -> Tuple[int, 
             currentNode.childNode[value] = next_node
             count += 1
     else:
-        next_node.indexes.append(index)
+        next_node.indexes.append(index) if index not in next_node.indexes else None
 
     return count, next_node.indexes
 

@@ -17,6 +17,8 @@ def count_solutions(counts: PieceKeyCounts, pieces: List[PieceKeyCountsPiece]):
     node_count_counts = 0
     visited_before_count = 0
     pop_count = 0
+    non_solution_count = 0
+
 
     if len(pieces) > 1:
         last_solution_time: float = 0
@@ -32,7 +34,7 @@ def count_solutions(counts: PieceKeyCounts, pieces: List[PieceKeyCountsPiece]):
 
                 if piece.has_visited_befor(index, new_node_count_counts):
                     print(TOP_LEFT)
-                    print(f'{node_count_piece + piece.node_count_piece}:{node_count_counts}:{visited_before_count}:{pop_count}:{solution_count}:{int(time() - start)}:{last_solution_time}')
+                    print(f'{node_count_piece}:{node_count_counts}:{visited_before_count}:{pop_count}:{non_solution_count}:{solution_count}:{int(time() - start)}:{last_solution_time}')
                     visited_before_count += 1
                     continue
 
@@ -46,10 +48,16 @@ def count_solutions(counts: PieceKeyCounts, pieces: List[PieceKeyCountsPiece]):
                 elif piece.next(solution_count):
                     solution_count += 1
                     last_solution_time = time() - start
+                    node_count_piece += piece.node_count_piece
+             
+                    assert(not piece.next(solution_count))
+                else:
+                    non_solution_count += 1
+              
             else:
                 node_count_piece += piece.node_count_piece
                 pop_count += 1
                 forward_stack.pop()
 
         print(TOP_LEFT)
-        print(f'{node_count_piece}:{node_count_counts}:{visited_before_count}:{pop_count}:{solution_count}:{time() - start}:{last_solution_time}')
+        print(f'{node_count_piece}:{node_count_counts}:{visited_before_count}:{pop_count}:{non_solution_count}:{solution_count}:{time() - start}:{last_solution_time}')
