@@ -1,4 +1,4 @@
-from piece_key_constants import ASTERISK_PIECE_KEY, PIECE_KEY_BASE
+from piece_key_constants import ASTERISK_PIECE_KEY, PIECE_KEY_BASE, ASTERISK
 from base_piece import BasePiece, Directions, Coordinate
 from edge import Edge, OPPOSITE_EDGE 
 from rotation_matrix import INDEX_ROTATION_MATRIX
@@ -21,7 +21,7 @@ class PieceKeyCountsPiece(BasePiece):
         self.down_keys: List[int] = []
         self.pieces: List[PieceKeyCountsPiece] = []
         self.root = TrieNode(PIECE_KEY_BASE)
-        
+        self.asterisk_piece_key_list: List[str] = list(ASTERISK_PIECE_KEY)
     
     def __repr__(self) -> str:
         return self.rotated_piece_key()
@@ -64,12 +64,17 @@ class PieceKeyCountsPiece(BasePiece):
             raise Exception()
         
     def asterisk_piece_key(self) -> str:
-        asterisk_piece_key = list(ASTERISK_PIECE_KEY)
+        self.asterisk_piece_key_list = list(ASTERISK_PIECE_KEY)
     
         for edge in self.edges:
-            asterisk_piece_key[edge] = self.oppsites_opposite_key_part(self.links[edge], edge)
+            self.asterisk_piece_key_list[edge] = self.oppsites_opposite_key_part(self.links[edge], edge)
         
-        return ''.join(asterisk_piece_key)
+        asterisk_piece_key = ''.join(self.asterisk_piece_key_list)
+
+        for edge in self.edges:
+            self.asterisk_piece_key_list[edge] = ASTERISK
+
+        return asterisk_piece_key
     
     def current_piece_key_counts(self) -> List[PieceKeyCount]:
         return self.piece_key_counts[self.asterisk_piece_key()]

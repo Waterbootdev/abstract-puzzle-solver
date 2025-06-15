@@ -22,10 +22,14 @@ def count_solutions(counts: PieceKeyCounts, pieces: List[PieceKeyCountsPiece]):
 
     if len(pieces) > 1:
         last_solution_time: float = 0
-        forward_stack: List[IterPieceKeyCountsPiece] = [IterPieceKeyCountsPiece(pieces[0], solution_count)]
+
+        forward_stack: List[IterPieceKeyCountsPiece] = [IterPieceKeyCountsPiece(piece) for piece in pieces]
+        forward_stack[0].init(solution_count)
+        stack_index = 0
+        
         assert pieces[0].forward
-        while len(forward_stack) > 0:
-            piece: IterPieceKeyCountsPiece = forward_stack[-1]
+        while stack_index >= 0:
+            piece: IterPieceKeyCountsPiece = forward_stack[stack_index]
 
             if piece.next(solution_count):
                 node_count_piece += piece.node_count_piece
@@ -41,15 +45,16 @@ def count_solutions(counts: PieceKeyCounts, pieces: List[PieceKeyCountsPiece]):
                 assert piece.piece_key_counts_piece.forward is not None
 
                 forward: PieceKeyCountsPiece = piece.piece_key_counts_piece.forward
-                piece: IterPieceKeyCountsPiece = IterPieceKeyCountsPiece(forward, solution_count)
-
+                piece: IterPieceKeyCountsPiece = forward_stack[stack_index + 1]
+                piece.init(solution_count)
+                
                 if forward.forward:
-                    forward_stack.append(piece)
+                    stack_index += 1
+
                 elif piece.next(solution_count):
                     solution_count += 1
                     last_solution_time = time() - start
                     node_count_piece += piece.node_count_piece
-             
                     assert(not piece.next(solution_count))
                 else:
                     non_solution_count += 1
@@ -57,7 +62,7 @@ def count_solutions(counts: PieceKeyCounts, pieces: List[PieceKeyCountsPiece]):
             else:
                 node_count_piece += piece.node_count_piece
                 pop_count += 1
-                forward_stack.pop()
+                stack_index -= 1
 
         print(TOP_LEFT)
         print(f'{node_count_piece}:{node_count_counts}:{visited_before_count}:{pop_count}:{non_solution_count}:{solution_count}:{time() - start}:{last_solution_time}')
