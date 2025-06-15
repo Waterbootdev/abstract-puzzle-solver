@@ -8,7 +8,7 @@ class PieceKeyCount:
     def __repr__(self) -> str:
         return f'{self.piece_key}/{self.piece_key_group_count}'
 
-def copy_piece_key_counts(source: List[PieceKeyCount], distination: List[PieceKeyCount]) -> int:
+def copy_piece_key_counts_greater_zero(source: List[PieceKeyCount], distination: List[PieceKeyCount]) -> int:
 
     length = 0
 

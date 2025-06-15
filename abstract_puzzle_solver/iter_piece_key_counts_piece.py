@@ -1,5 +1,5 @@
 from piece_key_constants import MAX_NUMBER_PIECE_KEYS
-from piece_key_count import PieceKeyCount, copy_piece_key_counts
+from piece_key_count import PieceKeyCount, copy_piece_key_counts_greater_zero
 from piece_key_counts_piece import PieceKeyCountsPiece
 from piece_key_group_count import PieceKeyGroupCount
 
@@ -24,7 +24,7 @@ class IterPieceKeyCountsPiece:
         self.solutions_count = solutions_count
         self.node_count_piece = 0
         self.contaned = False
-        self.length = copy_piece_key_counts(self.piece_key_counts_piece.current_piece_key_counts(), self.piece_key_counts)
+        self.length = copy_piece_key_counts_greater_zero(self.piece_key_counts_piece.current_piece_key_counts(), self.piece_key_counts)
         if self.length > 0:
             self.piece_key_counts_piece.init_down_keys()
         
@@ -63,7 +63,7 @@ class IterPieceKeyCountsPiece:
 
             self.contaned = contaned
         
-            return contaned and not appended # if False else False
+            return contaned and not appended
     
         else:
             self.contaned = False
