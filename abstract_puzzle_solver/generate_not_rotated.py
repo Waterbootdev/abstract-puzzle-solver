@@ -25,6 +25,9 @@ def generate_not_rotated(rotated: List[bool], length: int, height: int, frame_in
     else:
         not_rotated = single_frame(before, lengths[0])
 
+    if len(before[-1]) == 1:
+        del before[-1][-1]
+
     assert(len(before) == length)
     assert(before[-1] == [])
 

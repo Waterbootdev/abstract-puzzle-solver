@@ -1,4 +1,3 @@
-
 from piece_key_piece import PieceKeyPiece, Directions, Coordinate, Callable, Edge
 from piece_keys import PIECE_KEYS
 from typing import List, Self
@@ -16,11 +15,9 @@ class RandomPieceKeyPiece(PieceKeyPiece):
             raise Exception()
         
     def fit_piece_key(self) -> str:
-        piece_key = list(self.piece_key)
-    
+        piece_key = list(self.piece_key)    
         for edge in self.edges:
             piece_key[edge] = self.fit_part(self.links[edge], edge)
-        
         return ''.join(piece_key)
             
     def fit_piece(self) -> None:

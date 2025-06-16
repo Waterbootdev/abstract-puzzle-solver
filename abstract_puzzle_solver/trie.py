@@ -1,6 +1,7 @@
 from typing import List, Tuple
 
 class TrieNode:
+    max_length = 0
     def __init__(self, max:int, indexes: List[int]|None = None):
         
         if max == 0 and indexes is not None:
@@ -13,12 +14,11 @@ class TrieNode:
     
         if index not in self.indexes:
             self.indexes.append(index)
+            TrieNode.max_length = max(TrieNode.max_length, len(self.indexes))
             return True
         else:
             return False
-    
-        
-        
+                
 LEAF: List[TrieNode|None] = []
 
 def insert_key(root:TrieNode, max:int, key:List[int], index: int) -> Tuple[int, List[int]]:
@@ -51,7 +51,7 @@ def insert_key(root:TrieNode, max:int, key:List[int], index: int) -> Tuple[int, 
 
     return count, next_node.indexes
 
-def contains_key(root:TrieNode, key:List[int], index: int) -> Tuple[bool, bool]:
+def contains_key(root:TrieNode, key:List[int], index: int) -> bool:
 
     currentNode:TrieNode = root
 
@@ -61,11 +61,11 @@ def contains_key(root:TrieNode, key:List[int], index: int) -> Tuple[bool, bool]:
 
         if next_node is None:
 
-            return False, False
+            return False
 
         currentNode = next_node
     
-    return True, currentNode.append_indexes(index)
+    return index in  currentNode.indexes
 
 def insert_key_list(root:TrieNode, max_list:List[int], key:List[int], index:int) -> Tuple[int, int]:
 

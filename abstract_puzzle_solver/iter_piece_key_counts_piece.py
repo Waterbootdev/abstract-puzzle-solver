@@ -42,7 +42,10 @@ class IterPieceKeyCountsPiece:
             if self.index > 0:
                 self.update(solution_count)
             return False
-        
+    
+    def last_next(self) -> None:
+        self.piece_key_counts[0].piece_key_group_count.current_count += 1
+              
     def update(self, solution_count: int): 
         
         if solution_count == self.solutions_count and not self.contaned:
@@ -50,24 +53,18 @@ class IterPieceKeyCountsPiece:
         else:
             self.solutions_count = solution_count
             
-        piece_key_count = self.piece_key_counts[self.index -1]
-        piece_key_count.piece_key_group_count.current_count += 1
+        self.piece_key_counts[self.index - 1].piece_key_group_count.current_count += 1
         
-    def has_visited_befor(self, index: int, new_node_count_counts: int) -> bool:
+    def has_visited_before(self, index: int, new_node_count_counts: int) -> bool:
 
         self.insert_index = index
    
         if new_node_count_counts == 0:
-      
-            contaned, appended = self.piece_key_counts_piece.contains(index)
-
-            self.contaned = contaned
-        
-            return contaned and not appended
-    
+            self.contaned = self.piece_key_counts_piece.contains(index)
         else:
             self.contaned = False
-            return False
 
+        return self.contaned
+    
     def __repr__(self) -> str:
         return f'{self.piece_key_counts_piece}:{self.index}/{self.length}'

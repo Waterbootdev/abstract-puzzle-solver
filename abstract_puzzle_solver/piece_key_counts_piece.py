@@ -1,6 +1,6 @@
 from piece_key_constants import ASTERISK_PIECE_KEY, PIECE_KEY_BASE, ASTERISK
 from base_piece import BasePiece, Directions, Coordinate
-from edge import Edge, OPPOSITE_EDGE 
+from edge import Edge, OPPOSITE_EDGE, LEFT_UP_RIGHT_DOWN 
 from rotation_matrix import INDEX_ROTATION_MATRIX
 from opposite_piece_keys import OPPOSITE_PIECE_KEYS
 from piece_key_count import PieceKeyCount
@@ -25,7 +25,7 @@ class PieceKeyCountsPiece(BasePiece):
     
     def __repr__(self) -> str:
         return self.rotated_piece_key()
-    
+ 
     def init_down_keys(self) -> None:
         for i, piece in enumerate(self.pieces):        
             self.down_keys[i] = piece.part(Edge.DOWN)
@@ -34,7 +34,7 @@ class PieceKeyCountsPiece(BasePiece):
 
         return insert_key(self.root, PIECE_KEY_BASE, self.down_keys, index)
 
-    def contains(self, index: int) -> Tuple[bool, bool]:
+    def contains(self, index: int) -> bool:
 
         if self.rotated:
             self.down_keys[-1] = self.part(Edge.DOWN)
@@ -62,6 +62,14 @@ class PieceKeyCountsPiece(BasePiece):
             return opposite_pice.get_opposite_key_part(self.rotation_index, edge)
         else:
             raise Exception()
+    
+    def check(self) -> bool:
+        asterisk_piece_key_list: List[str] = list(ASTERISK_PIECE_KEY)
+        
+        for edge in LEFT_UP_RIGHT_DOWN:
+            asterisk_piece_key_list[edge] = self.oppsites_opposite_key_part(self.links[edge], edge)
+
+        return ''.join(asterisk_piece_key_list) == self.piece_key
         
     def asterisk_piece_key(self) -> str:
         self.asterisk_piece_key_list = list(ASTERISK_PIECE_KEY)
@@ -84,13 +92,13 @@ def down_keys(down_keys:List[int], pieces:List[PieceKeyCountsPiece]) -> None:
         for i, piece in enumerate(pieces):
            down_keys[i] = int(piece.piece_key[Edge.DOWN])
 
- 
+def check(pieces: List[PieceKeyCountsPiece]) -> bool:
+    ok = True
+    for piece in pieces:
+        ok = ok and piece.check()
+    return ok
 
-        
 
-
-         
-    
     
 
     

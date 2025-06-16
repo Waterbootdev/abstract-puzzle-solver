@@ -21,20 +21,14 @@ class PieceKeyCounts:
         self.max.append(0)
         self.root = TrieNode(self.max[0])
         self.current_index = 0
-    
-    def ge_cuurrent_piece_key_counts(self) -> int:
-        def current_count(piece_key_count: PieceKeyGroupCount) -> int:
-            return piece_key_count.current_count
-        
-        return sum(map(current_count,self.initial_piece_key_groups_counts.values()))
-    
+
     def insert_counts(self) -> Tuple[int, int]:
         
         def current_count(piece_key_count: PieceKeyGroupCount) -> int:
         
             return piece_key_count.current_count
         
-        count, index = insert_key_list(self.root,self.max,list(map(current_count,self.initial_piece_key_groups_counts.values())), self.current_index)
+        count, index = insert_key_list(self.root, self.max, list(map(current_count, self.initial_piece_key_groups_counts.values())), self.current_index)
         
         if count > 0:
             assert(index == self.current_index)
