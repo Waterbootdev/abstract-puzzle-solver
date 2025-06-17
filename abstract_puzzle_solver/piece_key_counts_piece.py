@@ -1,11 +1,11 @@
-from piece_key_constants import ASTERISK_PIECE_KEY, PIECE_KEY_BASE, ASTERISK
+from piece_key_constants import ASTERISK_PIECE_KEY, ASTERISK
 from base_piece import BasePiece, Directions, Coordinate
 from edge import Edge, OPPOSITE_EDGE, LEFT_UP_RIGHT_DOWN 
 from rotation_matrix import INDEX_ROTATION_MATRIX
 from opposite_piece_keys import OPPOSITE_PIECE_KEYS
 from piece_key_count import PieceKeyCount
-from typing import List, Dict, Self, Tuple
-from trie import TrieNode, insert_key, contains_key
+from typing import List, Dict, Self
+from search_trie import SearchTrie, InsertNode
 
 
 class PieceKeyCountsPiece(BasePiece):
@@ -20,7 +20,7 @@ class PieceKeyCountsPiece(BasePiece):
         self.piece_key_counts = piece_key_counts[str(self.edges)]
         self.down_keys: List[int] = []
         self.pieces: List[PieceKeyCountsPiece] = []
-        self.root = TrieNode(PIECE_KEY_BASE)
+        self.root = SearchTrie()
         self.asterisk_piece_key_list: List[str] = list(ASTERISK_PIECE_KEY)
     
     def __repr__(self) -> str:
@@ -30,11 +30,7 @@ class PieceKeyCountsPiece(BasePiece):
         for i, piece in enumerate(self.pieces):        
             self.down_keys[i] = piece.part(Edge.DOWN)
         
-    def insert(self, index: int) -> Tuple[int, List[int]]:
-
-        return insert_key(self.root, PIECE_KEY_BASE, self.down_keys, index)
-
-    def contains(self, index: int) -> bool:
+    def insert_node(self) -> InsertNode:
 
         if self.rotated:
             self.down_keys[-1] = self.part(Edge.DOWN)
@@ -42,7 +38,7 @@ class PieceKeyCountsPiece(BasePiece):
             self.down_keys[-1] = self.part(Edge.RIGHT)
             self.down_keys[-2] = self.part(Edge.DOWN)
 
-        return contains_key(self.root, self.down_keys, index)
+        return self.root.insert(self.down_keys)
 
     def part(self,edge: Edge) -> int:
         return int(self.piece_key[edge])

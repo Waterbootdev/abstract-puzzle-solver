@@ -2,7 +2,7 @@ from piece_key_constants import MAX_NUMBER_PIECE_KEYS
 from piece_key_count import PieceKeyCount, copy_piece_key_counts_greater_zero
 from piece_key_counts_piece import PieceKeyCountsPiece
 from piece_key_group_count import PieceKeyGroupCount
-
+from insert_node_value import InsertNodeValue
 from typing import List
 
 class IterPieceKeyCountsPiece:
@@ -17,6 +17,8 @@ class IterPieceKeyCountsPiece:
         self.contaned = False
         self.piece_key_counts: List[PieceKeyCount] = [IterPieceKeyCountsPiece.DUMMY_PIECE_KEY_COUNT]*MAX_NUMBER_PIECE_KEYS
         self.length = 0
+        self.insert_node = None
+
 
     def init(self, solutions_count: int) -> None:
         self.index = 0
@@ -24,6 +26,7 @@ class IterPieceKeyCountsPiece:
         self.solutions_count = solutions_count
         self.node_count_piece = 0
         self.contaned = False
+        self.insert_node = None
         self.length = copy_piece_key_counts_greater_zero(self.piece_key_counts_piece.current_piece_key_counts(), self.piece_key_counts)
         if self.length > 0:
             self.piece_key_counts_piece.init_down_keys()
@@ -46,12 +49,17 @@ class IterPieceKeyCountsPiece:
     def last_next(self) -> None:
         self.piece_key_counts[0].piece_key_group_count.current_count += 1
               
-    def update(self, solution_count: int): 
+    def update(self, solution_count: int):
+
+        assert self.insert_node is not None
+
+        if not self.contaned:    
+            if solution_count == self.solutions_count:
+                self.insert_node.append_index(self.insert_index, None)
+            else:
+                self.insert_node.append_index(self.insert_index, InsertNodeValue(self.solutions_count, solution_count))
         
-        if solution_count == self.solutions_count and not self.contaned:
-            self.node_count_piece, _ = self.piece_key_counts_piece.insert(self.insert_index)
-        else:
-            self.solutions_count = solution_count
+        self.solutions_count = solution_count
             
         self.piece_key_counts[self.index - 1].piece_key_group_count.current_count += 1
         
@@ -59,12 +67,11 @@ class IterPieceKeyCountsPiece:
 
         self.insert_index = index
    
-        if new_node_count_counts == 0:
-            self.contaned = self.piece_key_counts_piece.contains(index)
-        else:
-            self.contaned = False
-
-        return self.contaned
-    
+        self.insert_node = self.piece_key_counts_piece.insert_node()
+      
+        self.contaned = self.insert_node.contains_index(index)
+         
+        return self.contaned and new_node_count_counts == 0
+     
     def __repr__(self) -> str:
         return f'{self.piece_key_counts_piece}:{self.index}/{self.length}'
