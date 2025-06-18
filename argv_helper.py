@@ -13,11 +13,13 @@ def cast_number(type: Callable[[str], T], number_str: str, default: T, minimum: 
         
 def get_from_argvs(current_args: List[str], 
                    width_def: int = 6, 
-                   height_def: int = 5) -> tuple[int, int]:
+                   height_def: int = 5,
+                   subdirctory_def: str = 'solutions') -> tuple[int, int, str]:
 
 
     width = width_def
     height = height_def
+    subdirctory = subdirctory_def
     
     match len(current_args):
         case 2:             
@@ -25,8 +27,12 @@ def get_from_argvs(current_args: List[str],
         case 3: 
             width = cast_number(int, current_args[1], width_def, 0)
             height = cast_number(int, current_args[2], height_def, 0)
+        case 4:
+            width = cast_number(int, current_args[1], width_def, 0)
+            height = cast_number(int, current_args[2], height_def, 0)
+            subdirctory = current_args[3]
         case _:
             pass
     
     
-    return width, min(width, height)
+    return width, min(width, height), subdirctory

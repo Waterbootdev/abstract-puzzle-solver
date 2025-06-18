@@ -6,6 +6,7 @@ MAX_NUMBER_PIECE_KEYS: int = int(MAX_PIECE_KEY, base=PIECE_KEY_BASE) + 1
 PIECE_KEY_DIGITS: str =  ''.join([str(digit) for digit in range(PIECE_KEY_BASE)])
 ASTERISK: str = '*'
 ASTERISK_PIECE_KEY :str = ASTERISK * PIECE_KEY_NUMBER_DIGITS
+PIECE_KEY_INDEX_LENGTH: int = len(str(MAX_NUMBER_PIECE_KEYS))
 
 if __name__ == '__main__':
     assert len(PIECE_KEY_DIGITS) == PIECE_KEY_BASE
