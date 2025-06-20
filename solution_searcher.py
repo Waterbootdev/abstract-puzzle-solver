@@ -10,7 +10,7 @@ TOP_LEFT = escape_position(1,1)
 
 class SolutionSearcher:
 
-    def __init__(self, counts: PieceKeyCounts, pieces: List[PieceKeyCountsPiece], append_solution: Callable[[int], int], append_solution_with_prefix: Callable[[int, int, InsertNodeValue], int]) -> None:
+    def __init__(self, counts: PieceKeyCounts, pieces: List[PieceKeyCountsPiece], append_solution: Callable[[int, int], int], append_solution_with_prefix: Callable[[int, int, InsertNodeValue], int]) -> None:
         if len(pieces) < 1:
             raise ValueError()
         
@@ -68,7 +68,7 @@ class SolutionSearcher:
                             print(TOP_LEFT)
                             print(f'{solutions_count}:{self.counts.current_index}:{self.visited_before_count}')
                 else:
-                    solutions_count = self.append_solution(solutions_count)
+                    solutions_count = self.append_solution(solutions_count, self.stack_index)
                     piece.last_next()
                     piece = self.decrement()
             else:
