@@ -19,6 +19,7 @@ INDEX_TO_PIECE_KEY: Dict[str, str] = {value: key for key, value in PIECE_KEY_TO_
 PIECE_KEY_TO_INDEX_0: Dict[str, str] = {key: value[0] for key, value in PIECE_KEY_TO_INDEX.items()}
 PIECE_KEY_TO_INDEX_1: Dict[str, str] = {key: value[1] for key, value in PIECE_KEY_TO_INDEX.items()}
 PIECE_KEY_TO_BYTE: Dict[str, bytes] = {key: bytes([i])  for i, key in enumerate(PIECE_KEYS)}
+BYTE_TO_PIECE_KEY: Dict[bytes, str] = {value: key for key, value in PIECE_KEY_TO_BYTE.items()}
 
 if __name__ == '__main__':
     assert len(set(PIECE_KEYS)) == MAX_NUMBER_PIECE_KEYS
