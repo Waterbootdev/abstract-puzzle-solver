@@ -20,7 +20,7 @@ SECOND_LINE = escape_position(5,1)
     
 def main():
 
-    setrlimit(RLIMIT_NOFILE, (500000,1000000))
+    setrlimit(RLIMIT_NOFILE, (1000000, 1000000))
 
     system('clear')
 
