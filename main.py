@@ -10,6 +10,8 @@ from os import system,path
 from piece_key_piece_print_positions import escape_position
 from solutions_saver import save_solutions
 from pathlib import Path
+from resource import setrlimit, RLIMIT_NOFILE
+
 
 DRIVE = "/mnt/g"
 
@@ -17,6 +19,8 @@ FIRST_LINE = escape_position(3,1)
 SECOND_LINE = escape_position(5,1)
     
 def main():
+
+    setrlimit(RLIMIT_NOFILE, (500000,1000000))
 
     system('clear')
 
