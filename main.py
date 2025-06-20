@@ -24,9 +24,6 @@ def main():
    
     width, height, subdirctory = get_from_argvs(current_argv)
 
-    width = 3
-    height = 3
-
     directory_path_name = path.join(DRIVE, subdirctory)
 
     directory_path: Path = Path(directory_path_name)
