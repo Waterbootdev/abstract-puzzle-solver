@@ -5,9 +5,15 @@ from piece_key_counts_piece import PieceKeyCountsPiece
 from solution_streams_helper import open_solution_stack_stream, open_position_stream
 from typing import List
 
-class SolutionWriteStreams:
+from extra_piece import ExtraPieceKeyCountsPiece
+from typing import TypeVar, Generic
 
-    def __init__(self, directory_path: str, pieces: List[PieceKeyCountsPiece]):
+T = TypeVar('T', PieceKeyCountsPiece, ExtraPieceKeyCountsPiece)
+
+
+class SolutionWriteStreams(Generic[T]):
+
+    def __init__(self, directory_path: str, pieces: List[T]):
         self.pieces = pieces
         self.number_pieces = len(pieces)
         self.stack_stream = open_solution_stack_stream(directory_path, 'w')

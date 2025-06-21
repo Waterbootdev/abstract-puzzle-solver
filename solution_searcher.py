@@ -6,17 +6,22 @@ from collections.abc import Callable
 from piece_key_piece_print_positions import escape_position
 from insert_node_value import InsertNodeValue
 
+from extra_piece import ExtraPieceKeyCountsPiece
+from typing import TypeVar, Generic
+
+T = TypeVar('T', PieceKeyCountsPiece, ExtraPieceKeyCountsPiece)
+
 TOP_LEFT = escape_position(1,1)
 
-class SolutionSearcher:
+class SolutionSearcher(Generic[T]):
 
-    def __init__(self, counts: PieceKeyCounts, pieces: List[PieceKeyCountsPiece], append_solution: Callable[[int, int], int], append_solution_with_prefix: Callable[[int, int, InsertNodeValue], int]) -> None:
+    def __init__(self, counts: PieceKeyCounts, pieces: List[T], append_solution: Callable[[int, int], int], append_solution_with_prefix: Callable[[int, int, InsertNodeValue], int]) -> None:
         if len(pieces) < 1:
             raise ValueError()
         
         self.counts: PieceKeyCounts = counts
         self.stack_index: int = -1
-        self.search_stack: List[IterPieceKeyCountsPiece] = [IterPieceKeyCountsPiece(piece) for piece in pieces]
+        self.search_stack: List[IterPieceKeyCountsPiece[T]] = [IterPieceKeyCountsPiece[T](piece) for piece in pieces]
         self.stack_length: int = len(self.search_stack)
         self.last_stack_index: int = self.stack_length - 1
         self.solutions:List[List[str]] = []
@@ -26,18 +31,18 @@ class SolutionSearcher:
         self.visited_before_count: int = 0
         self.first_index = self.search_stack[0].piece_key_counts_piece.coordinate.index
 
-    def decrement(self) -> IterPieceKeyCountsPiece:
+    def decrement(self) -> IterPieceKeyCountsPiece[T]:
         self.stack_index -= 1
         piece = self.search_stack[self.stack_index]
         return piece
 
-    def increment(self, solutions_count: int) -> IterPieceKeyCountsPiece:
+    def increment(self, solutions_count: int) -> IterPieceKeyCountsPiece[T]:
         self.stack_index += 1
         piece = self.search_stack[self.stack_index]
         piece.init(solutions_count)
         return piece
 
-    def has_not_visited_before(self, piece: IterPieceKeyCountsPiece) -> bool:
+    def has_not_visited_before(self, piece: IterPieceKeyCountsPiece[T]) -> bool:
         new_node_count_counts, index =  self.counts.insert_counts()
         return not piece.has_visited_before(index, new_node_count_counts)
 
@@ -46,7 +51,7 @@ class SolutionSearcher:
         if self.searched:
             raise Exception("can't serach twice")
         solutions_count: int = 0
-        piece: IterPieceKeyCountsPiece = self.increment(solutions_count)
+        piece: IterPieceKeyCountsPiece[T] = self.increment(solutions_count)
         while self.stack_index >= 0:                 
             if piece.next(solutions_count):
                 if self.stack_index < self.last_stack_index:

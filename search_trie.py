@@ -1,7 +1,6 @@
 from piece_key_constants import PIECE_KEY_BASE
 from insert_node import InsertNode
 from typing import List, Any
-
 class SearchTrie:
     def __init__(self) -> None:
         self.children: List[Any] = [None] * PIECE_KEY_BASE
@@ -20,6 +19,9 @@ class SearchTrie:
             current_children[last_digit] = InsertNode()
     
         return current_children[last_digit]
+
+
+
 
 
     

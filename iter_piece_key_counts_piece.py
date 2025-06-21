@@ -5,10 +5,16 @@ from piece_key_group_count import PieceKeyGroupCount
 from insert_node_value import InsertNodeValue
 from typing import List
 
-class IterPieceKeyCountsPiece:
+from extra_piece import ExtraPieceKeyCountsPiece
+from typing import TypeVar, Generic
+
+T = TypeVar('T', PieceKeyCountsPiece, ExtraPieceKeyCountsPiece)
+
+
+class IterPieceKeyCountsPiece(Generic[T]):
     DUMMY_PIECE_KEY_COUNT: PieceKeyCount = PieceKeyCount('', PieceKeyGroupCount('', 0)) 
 
-    def __init__(self, piece_key_counts_piece: PieceKeyCountsPiece) -> None:
+    def __init__(self, piece_key_counts_piece: T) -> None:
         self.index = 0
         self.insert_index = 0
         self.solutions_count = 0
