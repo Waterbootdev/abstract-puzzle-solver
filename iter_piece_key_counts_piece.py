@@ -1,38 +1,37 @@
 from piece_key_constants import MAX_NUMBER_PIECE_KEYS
 from piece_key_count import PieceKeyCount, copy_piece_key_counts_greater_zero
-from piece_key_counts_piece import PieceKeyCountsPiece
 from piece_key_group_count import PieceKeyGroupCount
 from insert_node_value import InsertNodeValue
-from typing import List
-
-from extra_piece import ExtraPieceKeyCountsPiece
-from typing import TypeVar, Generic
-
-T = TypeVar('T', PieceKeyCountsPiece, ExtraPieceKeyCountsPiece)
-
+from insert_node import InsertNode
+from typing import List, Generic
+from piece_key_counts_pieces import T
 
 class IterPieceKeyCountsPiece(Generic[T]):
     DUMMY_PIECE_KEY_COUNT: PieceKeyCount = PieceKeyCount('', PieceKeyGroupCount('', 0)) 
 
     def __init__(self, piece_key_counts_piece: T) -> None:
         self.index = 0
-        self.insert_index = 0
+        self.insert_index = ''
         self.solutions_count = 0
         self.piece_key_counts_piece = piece_key_counts_piece
         self.node_count_piece = 0
         self.contaned = False
         self.piece_key_counts: List[PieceKeyCount] = [IterPieceKeyCountsPiece.DUMMY_PIECE_KEY_COUNT]*MAX_NUMBER_PIECE_KEYS
         self.length = 0
-        self.insert_node = None
+        self.insert_node: InsertNode|None = None
+        self.inserted: bool = False
+        
+    
 
 
     def init(self, solutions_count: int) -> None:
         self.index = 0
-        self.insert_index = 0
+        self.insert_index = ''
         self.solutions_count = solutions_count
         self.node_count_piece = 0
         self.contaned = False
-        self.insert_node = None
+        self.insert_node: InsertNode|None = None
+        self.inserted: bool = False
         self.length = copy_piece_key_counts_greater_zero(self.piece_key_counts_piece.current_piece_key_counts(), self.piece_key_counts)
         if self.length > 0:
             self.piece_key_counts_piece.init_down_keys()
@@ -69,15 +68,18 @@ class IterPieceKeyCountsPiece(Generic[T]):
             
         self.piece_key_counts[self.index - 1].piece_key_group_count.current_count += 1
         
-    def has_visited_before(self, index: int, new_node_count_counts: int) -> bool:
+    def has_visited_before(self, index: str, new_node_count_counts: bool) -> bool:
 
         self.insert_index = index
-   
-        self.insert_node = self.piece_key_counts_piece.insert_node()
-      
-        self.contaned = self.insert_node.contains_index(index)
-         
-        return self.contaned and new_node_count_counts == 0
+
+        self.inserted, self.insert_node = self.piece_key_counts_piece.insert_node()
+
+        if self.inserted:
+            self.contaned = False
+        else:
+            self.contaned = self.insert_node.contains_index(index)
+        
+        return self.contaned and not new_node_count_counts
      
     def __repr__(self) -> str:
         return f'{self.piece_key_counts_piece}:{self.index}/{self.length}'

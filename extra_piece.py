@@ -4,7 +4,7 @@ from edge import Edge, OPPOSITE_EDGE, LEFT_UP_RIGHT_DOWN
 from rotation_matrix import INDEX_ROTATION_MATRIX
 from opposite_piece_keys import OPPOSITE_PIECE_KEYS
 from piece_key_count import PieceKeyCount
-from typing import List, Dict, Self
+from typing import List, Dict, Self, Tuple
 from Search_directory_trie import SearchTrieFile, InsertNode
 from os import path
 
@@ -30,7 +30,7 @@ class ExtraPieceKeyCountsPiece(BasePiece):
         for i, piece in enumerate(self.pieces):        
             self.down_keys[i] = piece.part(Edge.DOWN)
         
-    def insert_node(self) -> InsertNode:
+    def insert_node(self) -> Tuple[bool, InsertNode]:
 
         if self.rotated:
             self.down_keys[-1] = self.part(Edge.DOWN)

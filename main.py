@@ -5,7 +5,7 @@ from typing import List
 from piece_key_piece_helper import piece_key_groups_counts_sum
 from piece_key_counts import PieceKeyCounts
 from piece_key_counts_piece_generator import PieceKeyCountsPieceGenerator, PieceKeyCountsPiece
-from extra_piece_generator import ExtraPieceKeyCountsPieceGenerator, ExtraPieceKeyCountsPiece
+#from extra_piece_generator import ExtraPieceKeyCountsPieceGenerator, ExtraPieceKeyCountsPiece
 from piece_keys import PIECE_KEYS
 from os import system,path
 from piece_key_piece_print_positions import escape_position
@@ -19,7 +19,7 @@ DRIVE = "/mnt/g"
 
 FIRST_LINE = escape_position(3,1)
 SECOND_LINE = escape_position(5,1)
-Extra_LINE = escape_position(8,1)
+EXTRA_LINE = escape_position(8,1)
     
 def main():
 
@@ -31,9 +31,9 @@ def main():
    
     width, height, subdirctory = get_from_argvs(current_argv)
 
-    width = 6
-    height = 6
-
+    width = 4
+    height = 4
+    
     directory_path_name = path.join(DRIVE, subdirctory)
 
     directory_path: Path = Path(directory_path_name)
@@ -56,28 +56,30 @@ def main():
     
     end1 = time.time()
 
+    print(EXTRA_LINE)
+    print(f'{end1 - start1}')
 
-    counts: PieceKeyCounts  = PieceKeyCounts(piece_key_groups_counts_sum(random.pieces))
+    # counts: PieceKeyCounts  = PieceKeyCounts(piece_key_groups_counts_sum(random.pieces))
     
-    extra_generated_pieces: ExtraPieceKeyCountsPieceGenerator = ExtraPieceKeyCountsPieceGenerator(width, height, first_frame, counts.asterisk_piece_key_counts)
+    # extra_generated_pieces: ExtraPieceKeyCountsPieceGenerator = ExtraPieceKeyCountsPieceGenerator(width, height, first_frame, counts.asterisk_piece_key_counts)
 
-    extra_pieces : List[ExtraPieceKeyCountsPiece] = extra_generated_pieces.pieces
+    # extra_pieces : List[ExtraPieceKeyCountsPiece] = extra_generated_pieces.pieces
 
-    directory_path_name = path.join(DRIVE, f'{subdirctory}_extra')
+    # directory_path_name = path.join(DRIVE, f'{subdirctory}_extra')
 
-    directory_path: Path = Path(directory_path_name)
+    # directory_path: Path = Path(directory_path_name)
 
-    if not directory_path.exists():
-        directory_path.mkdir()
+    # if not directory_path.exists():
+    #     directory_path.mkdir()
 
-    start2 = time.time()
+    # start2 = time.time()
 
-    save_solutions(directory_path_name, counts, extra_pieces)
+    # save_solutions(directory_path_name, counts, extra_pieces)
 
-    end2 = time.time()
+    # end2 = time.time()
 
 
-    print(Extra_LINE)
-    print(f'{end1 - start1}:{end2 - start2}')
+    # print(EXTRA_LINE)
+    # print(f'{end1 - start1}:{end2 - start2}')
 
 main()
