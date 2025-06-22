@@ -50,7 +50,6 @@ class SolutionSearcher(Generic[T]):
         if index < len(self.hexes):
             return self.hexes[index]
         else:
-            assert len(self.hexes) == index
             hex_index = hex(index)[2:]
             self.hexes.append(hex_index)
             return hex_index
@@ -82,7 +81,6 @@ class SolutionSearcher(Generic[T]):
                         insert_node_value = piece.insert_node.get_value(piece.insert_index)
 
                         if insert_node_value is not None:
-                            assert insert_node_value.count > 0
                             solutions_count = self.append_solution_with_prefix(solutions_count, self.stack_index, insert_node_value)
            
                         self.visited_before_count += 1

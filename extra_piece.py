@@ -5,7 +5,7 @@ from rotation_matrix import INDEX_ROTATION_MATRIX
 from opposite_piece_keys import OPPOSITE_PIECE_KEYS
 from piece_key_count import PieceKeyCount
 from typing import List, Dict, Self, Tuple
-from Search_directory_trie import SearchTrieFile, InsertNode
+from search_trie_file import SearchTrieFile, InsertNode
 from os import path
 
 class ExtraPieceKeyCountsPiece(BasePiece):

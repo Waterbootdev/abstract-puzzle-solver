@@ -26,8 +26,6 @@ class PieceKeyCountsPieceGenerator(PieceGenerator[PieceKeyCountsPiece]):
 
         links: List[List[int]] = generate_not_rotated(self.rotated, len(self.spiral), height + 2, self.frame_index)
 
-        assert(len(links) == len(self.spiral))
-
         for piece, link in zip(self.spiral, links):
             piece.pieces =[self.spiral[li] for li in link if li >= self.pieces[0].coordinate.index]
             length = len(piece.pieces)
