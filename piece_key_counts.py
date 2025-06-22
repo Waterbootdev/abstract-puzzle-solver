@@ -27,7 +27,7 @@ class PieceKeyCounts:
         self.last_current_count = 0
 
         
-    def insert_counts(self, next : Callable[[], str]) -> Tuple[bool, str]:
+    def insert_counts(self, next : Callable[[], int]) -> Tuple[bool, int]:
         
         for i, piece_key_count in enumerate(self.initial_piece_key_groups_counts.values()):
             if i < len(self.keys):

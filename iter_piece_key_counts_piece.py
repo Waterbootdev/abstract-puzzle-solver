@@ -11,7 +11,7 @@ class IterPieceKeyCountsPiece(Generic[T]):
 
     def __init__(self, piece_key_counts_piece: T) -> None:
         self.index = 0
-        self.insert_index = ''
+        self.insert_index = 0
         self.solutions_count = 0
         self.piece_key_counts_piece = piece_key_counts_piece
         self.node_count_piece = 0
@@ -21,12 +21,9 @@ class IterPieceKeyCountsPiece(Generic[T]):
         self.insert_node: InsertNode|None = None
         self.inserted: bool = False
         
-    
-
-
     def init(self, solutions_count: int) -> None:
         self.index = 0
-        self.insert_index = ''
+        self.insert_index = 0
         self.solutions_count = solutions_count
         self.node_count_piece = 0
         self.contaned = False
@@ -68,7 +65,7 @@ class IterPieceKeyCountsPiece(Generic[T]):
             
         self.piece_key_counts[self.index - 1].piece_key_group_count.current_count += 1
         
-    def has_visited_before(self, index: str, new_node_count_counts: bool) -> bool:
+    def has_visited_before(self, index: int, new_node_count_counts: bool) -> bool:
 
         self.insert_index = index
 

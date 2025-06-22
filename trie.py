@@ -6,7 +6,7 @@ class Trie:
         self.max = max
         self.root: List[Any|None]  = [None]*max[0]
 
-    def insert(self, keys:List[int], last_key: int, next: Callable[[], str]) -> Tuple[bool, str]:
+    def insert(self, keys:List[int], last_key: int, next: Callable[[], int]) -> Tuple[bool, int]:
         current: List[Any|None] = self.root
         for i, key in enumerate(keys):
             next_node = current[key]

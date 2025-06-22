@@ -27,7 +27,7 @@ class SolutionSearcher(Generic[T]):
         self.visited_before_count: int = 0
         self.first_index = self.search_stack[0].piece_key_counts_piece.coordinate.index
         self.indexes = [0]*self.stack_length
-        self.hexes: List[str] = []
+        self.count_indexes: List[int] = []
         self.total_hex_count = 0
         self.inserted_count = 0
         self.not_inserted_count = 0
@@ -43,19 +43,18 @@ class SolutionSearcher(Generic[T]):
         piece.init(solutions_count)
         return piece
 
-    def next_hex(self)-> str:
+    def next_index(self)-> int:
         self.total_hex_count += 1
         index = self.indexes[self.stack_index]
         self.indexes[self.stack_index] += 1
-        if index < len(self.hexes):
-            return self.hexes[index]
+        if index < len(self.count_indexes):
+            return self.count_indexes[index]
         else:
-            hex_index = hex(index)[2:]
-            self.hexes.append(hex_index)
-            return hex_index
+            self.count_indexes.append(index)
+            return index
     
     def has_not_visited_before(self, piece: IterPieceKeyCountsPiece[T]) -> bool:
-        new_node_count_counts, index =  self.counts.insert_counts(self.next_hex)
+        new_node_count_counts, index =  self.counts.insert_counts(self.next_index)
         visited = piece.has_visited_before(index, new_node_count_counts)
         if piece.inserted:
             self.inserted_count += 1
@@ -87,7 +86,7 @@ class SolutionSearcher(Generic[T]):
                         
                         if print_visited_before_count:
                             print(TOP_LEFT)
-                            print(f'{solutions_count}:{len(self.hexes)}/{self.total_hex_count}:{self.inserted_count}/{self.not_inserted_count}:{self.visited_before_count}')
+                            print(f'{solutions_count}:{len(self.count_indexes)}/{self.total_hex_count}:{self.inserted_count}/{self.not_inserted_count}:{self.visited_before_count}')
                 else:
                     solutions_count = self.append_solution(solutions_count, self.stack_index)
                     piece.last_next()
