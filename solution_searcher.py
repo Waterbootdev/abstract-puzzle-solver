@@ -1,15 +1,11 @@
 from iter_piece_key_counts_piece import IterPieceKeyCountsPiece
 from piece_key_counts import PieceKeyCounts
-from piece_key_counts_piece_generator import PieceKeyCountsPiece
 from typing import List
 from collections.abc import Callable
 from piece_key_piece_print_positions import escape_position
 from insert_node_value import InsertNodeValue
-
-from extra_piece import ExtraPieceKeyCountsPiece
-from typing import TypeVar, Generic
-
-T = TypeVar('T', PieceKeyCountsPiece, ExtraPieceKeyCountsPiece)
+from typing import Generic
+from piece_key_counts_pieces import T
 
 TOP_LEFT = escape_position(1,1)
 
@@ -35,8 +31,6 @@ class SolutionSearcher(Generic[T]):
         self.total_hex_count = 0
         self.inserted_count = 0
         self.not_inserted_count = 0
-
-    
 
     def decrement(self) -> IterPieceKeyCountsPiece[T]:
         self.stack_index -= 1

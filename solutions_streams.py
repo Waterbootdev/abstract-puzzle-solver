@@ -1,15 +1,10 @@
 from solutions_stream import WriteSolutionBytesStream, ReadSolutionBytesStream
 from solution_bytes_stream_helper import init_solution_streams
 from insert_node_value import InsertNodeValue
-from piece_key_counts_piece import PieceKeyCountsPiece
 from solution_streams_helper import open_solution_stack_stream, open_position_stream
 from typing import List
-
-from extra_piece import ExtraPieceKeyCountsPiece
-from typing import TypeVar, Generic
-
-T = TypeVar('T', PieceKeyCountsPiece, ExtraPieceKeyCountsPiece)
-
+from typing import Generic
+from piece_key_counts_pieces import T
 
 class SolutionWriteStreams(Generic[T]):
 
