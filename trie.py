@@ -18,13 +18,13 @@ class Trie:
         return current_stream_index
 
     def insert_key(self, stream_index: int, max_index: int, key: int) -> int:
-        stream_index += key
-        next_node_index: int = self.trie_stream[stream_index]
-        if next_node_index == 0:
-            next_node_index = self.length
-            self.trie_stream[stream_index] = next_node_index
+        key_index = stream_index + key
+        next_straem_offset: int = self.trie_stream[key_index]
+        if next_straem_offset == 0:
+            next_straem_offset =  self.length - stream_index
+            self.trie_stream[key_index] = next_straem_offset
             self.append_zeros(self.max[max_index])
-        return next_node_index
+        return stream_index + next_straem_offset
     
     def append_zeros(self, count: int) -> None:
         for _ in range(count):
