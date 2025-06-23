@@ -1,17 +1,18 @@
-from typing import List, Tuple
+from typing import Tuple
 from collections.abc import Callable
+from array import array
 
 class Trie:
-    def __init__(self, max: List[int]) -> None:
+    def __init__(self, max: array[int]) -> None:
         self.max = max
-        self.trie_stream: List[int] = [0]*max[0]
+        self.trie_stream: array[int] = array('i', [0]*max[0])
         self.length: int = max[0]
         self.zero = 0
      
-    def insert(self, keys:List[int], last_key: int, next: Callable[[], int]) -> Tuple[bool, int]:
+    def insert(self, keys: array[int], last_key: int, next: Callable[[], int]) -> Tuple[bool, int]:
         return self.insert_last_key(self.pre_insert(keys), last_key, next)
      
-    def pre_insert(self, keys: List[int]) -> int:
+    def pre_insert(self, keys: array[int]) -> int:
         current_stream_index: int = 0
         for i, key in enumerate(keys):
             current_stream_index = self.insert_key(current_stream_index, i + 1, key)

@@ -4,6 +4,7 @@ from edge import Edge, OPPOSITE_EDGE, LEFT_UP_RIGHT_DOWN
 from rotation_matrix import INDEX_ROTATION_MATRIX
 from opposite_piece_keys import OPPOSITE_PIECE_KEYS
 from piece_key_count import PieceKeyCount
+from array import array
 from typing import List, Dict, Self, Tuple
 from search_trie import SearchTrie, InsertNode
 
@@ -22,7 +23,7 @@ class PieceKeyCountsPiece(BasePiece):
         self.piece_key_counts = piece_key_counts[str(self.edges)]
         self.asterisk_piece_key_list: List[str] = list(ASTERISK_PIECE_KEY)
         self.pre_trie_index = 0
-        self.down_keys: List[int]
+        self.down_keys: array[int]
         self.pieces: List[PieceKeyCountsPiece]
         self.root: SearchTrie
         

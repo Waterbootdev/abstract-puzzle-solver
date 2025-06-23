@@ -9,7 +9,7 @@ from piece_key_count import PieceKeyCount
 from typing import Dict
 from index_pool import IndexPool
 from node_counter import NodeCounter
-from search_trie import SearchTrie
+from search_trie import SearchTrie, array
 
 class PieceKeyCountsPieceGenerator(PieceGenerator[PieceKeyCountsPiece]):
     def __init__(self, width: int, height: int, index_pool : IndexPool, node_counter: NodeCounter, first_frame_piece_keys: List[str], piece_key_counts: Dict[str, Dict[str, List[PieceKeyCount]]], opposite_key: str = DEFAULT_OPPOSITE_KEY) -> None:
@@ -41,7 +41,7 @@ class PieceKeyCountsPieceGenerator(PieceGenerator[PieceKeyCountsPiece]):
                 del piece.pieces[-1]
                 length -= 1
             if piece.coordinate.index >= first_index:
-                piece.down_keys = [0]*length
+                piece.down_keys = array('i', [0]*length)
                 piece.root = SearchTrie(trie_index_pool, index_pool, node_counter)
      
             

@@ -2,6 +2,7 @@ from piece_key_constants import PIECE_KEY_BASE
 from node_counter import NodeCounter
 from index_pool import IndexPool
 from insert_node import InsertNode
+from array import array
 from typing import List, Tuple
 
 class SearchTrie:
@@ -9,12 +10,12 @@ class SearchTrie:
         self.node_counter = node_counter
         self.index_pool = index_pool
         self.trie_index_pool: IndexPool = trie_index_pool
-        self.trie_stream: List[int] = [0]*PIECE_KEY_BASE
+        self.trie_stream: array[int] = array('i', [0]*PIECE_KEY_BASE)
         self.next_index: int = 1
         self.insert_nodes: List[InsertNode] = []
         self.insert_nodes_count: int = 0
     
-    def pre_insert(self, digits: List[int]) -> int:
+    def pre_insert(self, digits: array[int]) -> int:
         current_stream_index: int = 0
         for digit in digits:
             current_stream_index = self.insert_digit(current_stream_index, digit)

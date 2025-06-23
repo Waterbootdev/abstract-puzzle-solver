@@ -8,6 +8,7 @@ from insert_node_value import InsertNodeValue
 from typing import Generic
 from piece_key_counts_pieces import T
 from node_counter import NodeCounter
+from array import array
 
 TOP_LEFT = escape_position(1,1)
 
@@ -27,7 +28,7 @@ class SolutionSearcher(Generic[T]):
         self.append_solution = append_solution
         self.append_solution_with_prefix = append_solution_with_prefix  
         self.first_index = self.search_stack[0].piece_key_counts_piece.coordinate.index
-        self.indexes = [index_pool.zero]*self.stack_length
+        self.indexes: array[int] = array('i', [index_pool.zero]*self.stack_length)
         self.index_pool = index_pool
         self.node_counter = node_counter
     

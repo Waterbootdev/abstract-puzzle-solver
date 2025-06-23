@@ -1,4 +1,4 @@
-from typing import List
+from array import array
 
 class IndexPool:
     def __init__(self, offset: int) -> None:
@@ -6,7 +6,7 @@ class IndexPool:
         self.offset = offset
         self.zero = 0
         self.last_index = self.zero
-        self.indexes: List[int] = [self.zero]
+        self.indexes: array[int] = array('i', [self.zero])
         self.length = 1
 
     def get_index(self, index: int) -> int:
