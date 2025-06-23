@@ -26,7 +26,7 @@ class ExtraPieceKeyCountsPiece(BasePiece):
     def __repr__(self) -> str:
         return self.rotated_piece_key()
  
-    def init_down_keys(self) -> None:
+    def pre_insert_nodes(self) -> None:
         for i, piece in enumerate(self.pieces):        
             self.down_keys[i] = piece.part(Edge.DOWN)
         

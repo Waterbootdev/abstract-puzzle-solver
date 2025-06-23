@@ -1,3 +1,4 @@
+from index_pool import IndexPool
 from piece_key_constants import ASTERISK_PIECE_KEY, ASTERISK
 from base_piece import BasePiece, Directions, Coordinate
 from edge import Edge, OPPOSITE_EDGE, LEFT_UP_RIGHT_DOWN 
@@ -8,8 +9,9 @@ from typing import List, Dict, Self, Tuple
 from search_trie import SearchTrie, InsertNode
 
 
+
 class PieceKeyCountsPiece(BasePiece):
-    def __init__(self, piece_key_counts: Dict[str, Dict[str, List[PieceKeyCount]]], opposite_key: str, frame_index: int, rotation_index: int, rotated: bool, directions: List[Directions], coordinate: Coordinate, edges: List[Edge]) -> None:
+    def __init__(self, trie_index_pool: IndexPool, index_pool: IndexPool,  piece_key_counts: Dict[str, Dict[str, List[PieceKeyCount]]], opposite_key: str, frame_index: int, rotation_index: int, rotated: bool, directions: List[Directions], coordinate: Coordinate, edges: List[Edge]) -> None:
         super().__init__(frame_index, rotation_index, rotated, directions, coordinate, edges)
         self.opposite_piece_keys = OPPOSITE_PIECE_KEYS[opposite_key]
         self.piece_key = ASTERISK_PIECE_KEY
@@ -20,26 +22,24 @@ class PieceKeyCountsPiece(BasePiece):
         self.piece_key_counts = piece_key_counts[str(self.edges)]
         self.down_keys: List[int] = []
         self.pieces: List[PieceKeyCountsPiece] = []
-        self.root = SearchTrie()
+        self.root = SearchTrie(trie_index_pool, index_pool)
         self.asterisk_piece_key_list: List[str] = list(ASTERISK_PIECE_KEY)
+        self.pre_trie_index = 0
     
     def __repr__(self) -> str:
         return self.rotated_piece_key()
  
-    def init_down_keys(self) -> None:
+    def pre_insert_nodes(self) -> None:
         for i, piece in enumerate(self.pieces):        
             self.down_keys[i] = piece.part(Edge.DOWN)
+        self.pre_trie_index = self.root.pre_insert(self.down_keys)
         
-    def insert_node(self) -> Tuple[bool, InsertNode]:
-
+    def insert_node(self) -> Tuple[bool, InsertNode]:       
         if self.rotated:
-            self.down_keys[-1] = self.part(Edge.DOWN)
+            return self.root.insert_last_digit(self.pre_trie_index, self.part(Edge.DOWN))
         else:
-            self.down_keys[-1] = self.part(Edge.RIGHT)
-            self.down_keys[-2] = self.part(Edge.DOWN)
-
-        return self.root.insert(self.down_keys)
-
+            return self.root.insert_last_digit(self.root.insert_digit(self.pre_trie_index, self.part(Edge.DOWN)), self.part(Edge.RIGHT))
+            
     def part(self,edge: Edge) -> int:
         return int(self.piece_key[edge])
 

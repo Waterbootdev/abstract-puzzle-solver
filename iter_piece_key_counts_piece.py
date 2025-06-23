@@ -30,8 +30,7 @@ class IterPieceKeyCountsPiece(Generic[T]):
         self.insert_node: InsertNode|None = None
         self.inserted: bool = False
         self.length = copy_piece_key_counts_greater_zero(self.piece_key_counts_piece.current_piece_key_counts(), self.piece_key_counts)
-        if self.length > 0:
-            self.piece_key_counts_piece.init_down_keys()
+        self.piece_key_counts_piece.pre_insert_nodes()
         
     def next(self, solution_count: int) -> bool:
 
@@ -54,6 +53,7 @@ class IterPieceKeyCountsPiece(Generic[T]):
     def update(self, solution_count: int):
 
         assert self.insert_node is not None
+        assert self.insert_index > 0
 
         if not self.contaned:    
             if solution_count == self.solutions_count:

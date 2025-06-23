@@ -1,6 +1,7 @@
 from argv_helper import get_from_argvs
 import sys
 from random_piece_generator import RandomPieceGenerator
+from index_pool import IndexPool
 from typing import List
 from piece_key_piece_helper import piece_key_groups_counts_sum
 from piece_key_counts import PieceKeyCounts
@@ -37,19 +38,23 @@ def main():
 
     if not directory_path.exists():
         directory_path.mkdir()
+    
+    index_pool: IndexPool = IndexPool(1)
+
 
     random: RandomPieceGenerator = RandomPieceGenerator(width, height, firts_frame_piece_keys=[PIECE_KEYS[0]], piece_keys=[p for p in PIECE_KEYS if '0' not in p])
 
     counts: PieceKeyCounts  = PieceKeyCounts(piece_key_groups_counts_sum(random.pieces))
     first_frame: List[str]  = [p.inital_piece_key for p in random.spiral if p.frame_index == 0]
 
-    generated_pieces: PieceKeyCountsPieceGenerator = PieceKeyCountsPieceGenerator(width, height, first_frame, counts.asterisk_piece_key_counts)
+
+    generated_pieces: PieceKeyCountsPieceGenerator = PieceKeyCountsPieceGenerator(width, height, index_pool, first_frame, counts.asterisk_piece_key_counts)
 
     pieces : List[PieceKeyCountsPiece] = generated_pieces.pieces
 
     start1 = time.time()
 
-    save_solutions(directory_path_name, counts, pieces)
+    save_solutions(directory_path_name, index_pool, counts, pieces)
     
     end1 = time.time()
 

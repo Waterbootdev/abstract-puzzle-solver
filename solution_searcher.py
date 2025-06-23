@@ -1,3 +1,4 @@
+from index_pool import IndexPool
 from iter_piece_key_counts_piece import IterPieceKeyCountsPiece
 from piece_key_counts import PieceKeyCounts
 from typing import List
@@ -11,7 +12,7 @@ TOP_LEFT = escape_position(1,1)
 
 class SolutionSearcher(Generic[T]):
 
-    def __init__(self, counts: PieceKeyCounts, pieces: List[T], append_solution: Callable[[int, int], int], append_solution_with_prefix: Callable[[int, int, InsertNodeValue], int]) -> None:
+    def __init__(self, index_pool: IndexPool, counts: PieceKeyCounts, pieces: List[T], append_solution: Callable[[int, int], int], append_solution_with_prefix: Callable[[int, int, InsertNodeValue], int]) -> None:
         if len(pieces) < 1:
             raise ValueError()
         
@@ -26,12 +27,13 @@ class SolutionSearcher(Generic[T]):
         self.append_solution_with_prefix = append_solution_with_prefix  
         self.visited_before_count: int = 0
         self.first_index = self.search_stack[0].piece_key_counts_piece.coordinate.index
-        self.indexes = [0]*self.stack_length
-        self.count_indexes: List[int] = []
+        self.indexes = [index_pool.zero]*self.stack_length
         self.total_hex_count = 0
         self.inserted_count = 0
         self.not_inserted_count = 0
+        self.index_pool = index_pool
 
+    
     def decrement(self) -> IterPieceKeyCountsPiece[T]:
         self.stack_index -= 1
         piece = self.search_stack[self.stack_index]
@@ -45,13 +47,8 @@ class SolutionSearcher(Generic[T]):
 
     def next_index(self)-> int:
         self.total_hex_count += 1
-        index = self.indexes[self.stack_index]
         self.indexes[self.stack_index] += 1
-        if index < len(self.count_indexes):
-            return self.count_indexes[index]
-        else:
-            self.count_indexes.append(index)
-            return index
+        return self.index_pool.get_index(self.indexes[self.stack_index])
     
     def has_not_visited_before(self, piece: IterPieceKeyCountsPiece[T]) -> bool:
         new_node_count_counts, index =  self.counts.insert_counts(self.next_index)
@@ -61,8 +58,7 @@ class SolutionSearcher(Generic[T]):
         else:
             self.not_inserted_count += 1
         return not visited
-
-     
+ 
     def search(self, print_visited_before_count: bool = False) -> None:
         if self.searched:
             raise Exception("can't serach twice")
@@ -86,7 +82,7 @@ class SolutionSearcher(Generic[T]):
                         
                         if print_visited_before_count:
                             print(TOP_LEFT)
-                            print(f'{solutions_count}:{len(self.count_indexes)}/{self.total_hex_count}:{self.inserted_count}/{self.not_inserted_count}:{self.visited_before_count}')
+                            print(f'{solutions_count}:{self.index_pool.length}/{self.total_hex_count}:{self.inserted_count}/{self.not_inserted_count}:{self.visited_before_count}')
                 else:
                     solutions_count = self.append_solution(solutions_count, self.stack_index)
                     piece.last_next()

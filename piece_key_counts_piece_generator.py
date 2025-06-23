@@ -1,3 +1,4 @@
+from piece_key_constants import PIECE_KEY_BASE
 from opposite_piece_keys import DEFAULT_OPPOSITE_KEY
 from piece_generator import PieceGenerator
 from generate_not_rotated import generate_not_rotated
@@ -6,16 +7,20 @@ from edge import Edge
 from piece_key_counts_piece import PieceKeyCountsPiece
 from piece_key_count import PieceKeyCount
 from typing import Dict
+from index_pool import IndexPool
+
 
 class PieceKeyCountsPieceGenerator(PieceGenerator[PieceKeyCountsPiece]):
-    def __init__(self, width: int, height: int, first_frame_piece_keys: List[str], piece_key_counts: Dict[str, Dict[str, List[PieceKeyCount]]], opposite_key: str = DEFAULT_OPPOSITE_KEY) -> None:
+    def __init__(self, width: int, height: int, index_pool : IndexPool, first_frame_piece_keys: List[str], piece_key_counts: Dict[str, Dict[str, List[PieceKeyCount]]], opposite_key: str = DEFAULT_OPPOSITE_KEY) -> None:
         if width < 1 or height > width:
             raise ValueError()
 
         super().__init__(width + 2, height + 2)
-        
+
+        trie_index_pool : IndexPool = IndexPool(PIECE_KEY_BASE)
+    
         def get_new_base_piece(frame_index: int, rotation_index: int, rotated: bool, directions: List[Directions], coordinate: Coordinate, edges: List[Edge]) -> PieceKeyCountsPiece:
-            return PieceKeyCountsPiece(piece_key_counts, opposite_key, frame_index, rotation_index, rotated, directions, coordinate, edges)
+            return PieceKeyCountsPiece(trie_index_pool, index_pool, piece_key_counts, opposite_key, frame_index, rotation_index, rotated, directions, coordinate, edges)
         
         self.spiral: List[PieceKeyCountsPiece] = self.generate(get_new_base_piece)
 
@@ -29,10 +34,11 @@ class PieceKeyCountsPieceGenerator(PieceGenerator[PieceKeyCountsPiece]):
         for piece, link in zip(self.spiral, links):
             piece.pieces =[self.spiral[li] for li in link if li >= self.pieces[0].coordinate.index]
             length = len(piece.pieces)
-            piece.down_keys = [0] * (length + (0 if piece.rotated else 1))
             if length > 0:
                 del piece.pieces[-1]
-
+                length -= 1
+            piece.down_keys = [0]*length
+            
 
 
     
