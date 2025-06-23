@@ -53,7 +53,6 @@ class IterPieceKeyCountsPiece(Generic[T]):
     def update(self, solution_count: int):
 
         assert self.insert_node is not None
-        assert self.insert_index > 0
 
         if not self.contaned:    
             if solution_count == self.solutions_count:

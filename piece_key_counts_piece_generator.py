@@ -8,10 +8,11 @@ from piece_key_counts_piece import PieceKeyCountsPiece
 from piece_key_count import PieceKeyCount
 from typing import Dict
 from index_pool import IndexPool
+from node_counter import NodeCounter
 
 
 class PieceKeyCountsPieceGenerator(PieceGenerator[PieceKeyCountsPiece]):
-    def __init__(self, width: int, height: int, index_pool : IndexPool, first_frame_piece_keys: List[str], piece_key_counts: Dict[str, Dict[str, List[PieceKeyCount]]], opposite_key: str = DEFAULT_OPPOSITE_KEY) -> None:
+    def __init__(self, width: int, height: int, index_pool : IndexPool, node_counter: NodeCounter, first_frame_piece_keys: List[str], piece_key_counts: Dict[str, Dict[str, List[PieceKeyCount]]], opposite_key: str = DEFAULT_OPPOSITE_KEY) -> None:
         if width < 1 or height > width:
             raise ValueError()
 
@@ -20,7 +21,7 @@ class PieceKeyCountsPieceGenerator(PieceGenerator[PieceKeyCountsPiece]):
         trie_index_pool : IndexPool = IndexPool(PIECE_KEY_BASE)
     
         def get_new_base_piece(frame_index: int, rotation_index: int, rotated: bool, directions: List[Directions], coordinate: Coordinate, edges: List[Edge]) -> PieceKeyCountsPiece:
-            return PieceKeyCountsPiece(trie_index_pool, index_pool, piece_key_counts, opposite_key, frame_index, rotation_index, rotated, directions, coordinate, edges)
+            return PieceKeyCountsPiece(trie_index_pool, index_pool, node_counter, piece_key_counts, opposite_key, frame_index, rotation_index, rotated, directions, coordinate, edges)
         
         self.spiral: List[PieceKeyCountsPiece] = self.generate(get_new_base_piece)
 

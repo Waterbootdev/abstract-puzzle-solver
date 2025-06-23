@@ -1,10 +1,12 @@
+from node_counter import NodeCounter
 from index_pool import IndexPool
 from piece_key_constants import PIECE_KEY_BASE
 from insert_node import InsertNode
 from typing import List, Tuple
 
 class SearchTrie:
-    def __init__(self, trie_index_pool: IndexPool, index_pool: IndexPool) -> None:
+    def __init__(self, trie_index_pool: IndexPool, index_pool: IndexPool, node_counter: NodeCounter) -> None:
+        self.node_counter = node_counter
         self.index_pool = index_pool
         self.trie_index_pool: IndexPool = trie_index_pool
         self.trie_stream: List[int] = [trie_index_pool.zero]*PIECE_KEY_BASE
@@ -28,6 +30,7 @@ class SearchTrie:
             self.trie_stream.append(self.trie_index_pool.zero)
             self.trie_stream.append(self.trie_index_pool.zero)
             self.trie_stream.append(self.trie_index_pool.zero)
+            self.node_counter.increment()
         return next_node_index
     
     def insert_last_digit(self, current_stream_index: int, last_digit: int) -> Tuple[bool, InsertNode]:
