@@ -1,5 +1,3 @@
-from node_counter import NodeCounter
-from index_pool import IndexPool
 from piece_key_constants import ASTERISK_PIECE_KEY, ASTERISK
 from base_piece import BasePiece, Directions, Coordinate
 from edge import Edge, OPPOSITE_EDGE, LEFT_UP_RIGHT_DOWN 
@@ -13,7 +11,7 @@ from search_trie import SearchTrie, InsertNode
 
 
 class PieceKeyCountsPiece(BasePiece):
-    def __init__(self, trie_index_pool: IndexPool, index_pool: IndexPool, node_counter: NodeCounter, piece_key_counts: Dict[str, Dict[str, List[PieceKeyCount]]], opposite_key: str, frame_index: int, rotation_index: int, rotated: bool, directions: List[Directions], coordinate: Coordinate, edges: List[Edge]) -> None:
+    def __init__(self, piece_key_counts: Dict[str, Dict[str, List[PieceKeyCount]]], opposite_key: str, frame_index: int, rotation_index: int, rotated: bool, directions: List[Directions], coordinate: Coordinate, edges: List[Edge]) -> None:
         super().__init__(frame_index, rotation_index, rotated, directions, coordinate, edges)
         self.opposite_piece_keys = OPPOSITE_PIECE_KEYS[opposite_key]
         self.piece_key = ASTERISK_PIECE_KEY
@@ -22,12 +20,12 @@ class PieceKeyCountsPiece(BasePiece):
         self.rotation_matrix = rotation_matrix
         self.rotation = rotation_matrix[0]
         self.piece_key_counts = piece_key_counts[str(self.edges)]
-        self.down_keys: List[int] = []
-        self.pieces: List[PieceKeyCountsPiece] = []
-        self.root = SearchTrie(trie_index_pool, index_pool, node_counter)
         self.asterisk_piece_key_list: List[str] = list(ASTERISK_PIECE_KEY)
         self.pre_trie_index = 0
-    
+        self.down_keys: List[int]
+        self.pieces: List[PieceKeyCountsPiece]
+        self.root: SearchTrie
+        
     def __repr__(self) -> str:
         return self.rotated_piece_key()
  

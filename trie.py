@@ -5,7 +5,7 @@ class Trie:
     def __init__(self, max: List[int]) -> None:
         self.max = max
         self.trie_stream: List[int] = [0]*max[0]
-        self.length: int = len(self.trie_stream)
+        self.length: int = max[0]
         self.zero = 0
      
     def insert(self, keys:List[int], last_key: int, next: Callable[[], int]) -> Tuple[bool, int]:
