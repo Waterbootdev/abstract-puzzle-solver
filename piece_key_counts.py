@@ -20,17 +20,16 @@ class PieceKeyCounts:
 
         self.asterisk_piece_key_counts: Dict[str, Dict[str, List[PieceKeyCount]]] = {k1:{k2:[self.initial_piece_key_counts[v3] for v3 in v2] for k2,v2 in v1.items()} for k1, v1 in EDGES_TO_ASTERISK.items()}
         
-        self.length = len(self.initial_piece_key_groups_counts)
-        self.max : array[int] =  array('i', list(map(lambda x: x+1, initial_piece_key_groups_counts.values())))
-        self.max.append(0)
+        self.max : array[int] =  array('i', map(lambda x: x+1, filter(lambda x: x > 0 ,initial_piece_key_groups_counts.values())))
+        self.length = len(self.max) - 1
         self.root = Trie(self.max)
-        self.keys: array[int] = array('i', [0]*(self.length - 1))
+        self.keys: array[int] = array('i', [0]*(self.length))
         self.last_current_count = 0
 
         
     def insert_counts(self, next : Callable[[], int]) -> Tuple[bool, int]:
         
-        for i, piece_key_count in enumerate(self.initial_piece_key_groups_counts.values()):
+        for i, piece_key_count in enumerate(filter(lambda x: x.initial_count > 0, self.initial_piece_key_groups_counts.values())):
             if i < len(self.keys):
                 self.keys[i] = piece_key_count.current_count
             else:
