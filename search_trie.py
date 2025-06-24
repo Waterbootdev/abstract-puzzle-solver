@@ -1,17 +1,17 @@
+from itertools import repeat
 from piece_key_constants import PIECE_KEY_BASE
 from node_counter import NodeCounter
 from index_pool import IndexPool
 from insert_node import InsertNode
 from array import array
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
-class SearchTrie:
-    def __init__(self, trie_index_pool: IndexPool, index_pool: IndexPool, node_counter: NodeCounter) -> None:
+class SearchDict:
+    def __init__(self, index_pool: IndexPool, node_counter: NodeCounter, depth: int) -> None:
         self.node_counter = node_counter
         self.index_pool = index_pool
-        self.trie_index_pool: IndexPool = trie_index_pool
-        self.trie_stream: array[int] = array('i', [0]*PIECE_KEY_BASE)
-        self.next_index: int = 1
+        self.length = PIECE_KEY_BASE ** depth
+        self.leafs: Dict[int, int] = {} 
         self.insert_nodes: List[InsertNode] = []
         self.insert_nodes_count: int = 0
     
@@ -22,55 +22,50 @@ class SearchTrie:
         return current_stream_index
 
     def insert_digit(self, stream_index: int, digit: int) -> int:
-        stream_index += digit
-        next_node_index: int = self.trie_stream[stream_index]
-        if next_node_index == 0:
-            next_node_index = self.trie_index_pool.get_index(self.next_index)
-            self.trie_stream[stream_index] = next_node_index
-            self.next_index += 1
-            self.trie_stream.append(self.trie_index_pool.zero)
-            self.trie_stream.append(self.trie_index_pool.zero)
-            self.trie_stream.append(self.trie_index_pool.zero)
-            self.node_counter.increment()
-        return next_node_index
-    
+        return (stream_index + digit) * PIECE_KEY_BASE
+          
     def insert_last_digit(self, current_stream_index: int, last_digit: int) -> Tuple[bool, InsertNode]:
-        stream_index = current_stream_index + last_digit
-        insert_node_index = self.trie_stream[stream_index]
+        leaf_index = current_stream_index + last_digit
+        if leaf_index in self.leafs:
+            return False, self.insert_nodes[self.leafs[leaf_index]]
+        else:
+            self.leafs[leaf_index] = self.insert_nodes_count
+            insert_node = InsertNode()
+            self.insert_nodes.append(insert_node)
+            self.insert_nodes_count = self.index_pool.get_index(self.insert_nodes_count + 1)
+            self.node_counter.increment()
+            return True, insert_node
+    
+class SearchArray:
+    def __init__(self, index_pool: IndexPool, node_counter: NodeCounter, depth: int) -> None:
+        self.node_counter = node_counter
+        self.index_pool = index_pool
+        self.length = PIECE_KEY_BASE ** depth
+        self.leafs: array[int] = array('i', repeat(0, self.length)) 
+        self.insert_nodes: List[InsertNode] = []
+        self.insert_nodes_count: int = 0
+    
+    def pre_insert(self, digits: array[int]) -> int:
+        current_stream_index: int = 0
+        for digit in digits:
+            current_stream_index = self.insert_digit(current_stream_index, digit)
+        return current_stream_index
+
+    def insert_digit(self, stream_index: int, digit: int) -> int:
+        return (stream_index + digit) * PIECE_KEY_BASE
+    
+      
+    def insert_last_digit(self, current_stream_index: int, last_digit: int) -> Tuple[bool, InsertNode]:
+        leaf_index = current_stream_index + last_digit
+        
+        insert_node_index = self.leafs[leaf_index]
         if insert_node_index == 0:
             insert_node = InsertNode()
             self.insert_nodes.append(insert_node)
             self.insert_nodes_count = self.index_pool.get_index(self.insert_nodes_count + 1)
-            self.trie_stream[stream_index] = self.insert_nodes_count
+            self.leafs[leaf_index] = self.insert_nodes_count
+            self.node_counter.increment()
             return True, insert_node
         else:
             return False, self.insert_nodes[insert_node_index - 1]
-     
-            
         
-        
-
-
-
-
-
-
-    
-   
-
-
-
-
-
-  
-
-
-            
-
-
-
-        
-
-
-
-      

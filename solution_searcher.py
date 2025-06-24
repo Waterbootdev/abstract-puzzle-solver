@@ -14,7 +14,7 @@ TOP_LEFT = escape_position(1,1)
 
 class SolutionSearcher(Generic[T]):
 
-    def __init__(self, index_pool: IndexPool, node_counter: NodeCounter, counts: PieceKeyCounts, pieces: List[T], append_solution: Callable[[int, int], int], append_solution_with_prefix: Callable[[int, int, InsertNodeValue], int]) -> None:
+    def __init__(self, index_pool: IndexPool, node_counter: NodeCounter, counts: PieceKeyCounts, pieces: List[T], append_solution: Callable[[int, int], int], append_solution_with_prefix: Callable[[int, int, InsertNodeValue], int], trie_length_sum: int) -> None:
         if len(pieces) < 1:
             raise ValueError()
         
@@ -31,6 +31,7 @@ class SolutionSearcher(Generic[T]):
         self.indexes: array[int] = array('i', [index_pool.zero]*self.stack_length)
         self.index_pool = index_pool
         self.node_counter = node_counter
+        self.trie_length_sum = trie_length_sum
     
     def decrement(self) -> IterPieceKeyCountsPiece[T]:
         self.stack_index -= 1
@@ -68,7 +69,7 @@ class SolutionSearcher(Generic[T]):
                             solutions_count = self.append_solution_with_prefix(solutions_count, self.stack_index, insert_node_value)
                         if print_visited_before_count:
                             print(TOP_LEFT)
-                            print(f'{solutions_count}:{self.counts.root.length}:{self.node_counter.count}')
+                            print(f'{solutions_count}:{self.counts.root.leafs_count}/{self.counts.root.length}:{self.node_counter.count}/{self.trie_length_sum}')
                 else:
                     solutions_count = self.append_solution(solutions_count, self.stack_index)
                     piece.last_next()

@@ -6,7 +6,7 @@ from opposite_piece_keys import OPPOSITE_PIECE_KEYS
 from piece_key_count import PieceKeyCount
 from array import array
 from typing import List, Dict, Self, Tuple
-from search_trie import SearchTrie, InsertNode
+from search_trie import SearchDict, InsertNode
 
 
 
@@ -25,7 +25,7 @@ class PieceKeyCountsPiece(BasePiece):
         self.pre_trie_index = 0
         self.down_keys: array[int]
         self.pieces: List[PieceKeyCountsPiece]
-        self.root: SearchTrie
+        self.root: SearchDict
         
     def __repr__(self) -> str:
         return self.rotated_piece_key()

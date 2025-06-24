@@ -17,7 +17,7 @@ class SearchTrieFile:
         self.size = PIECE_KEY_BASE_POSITION_BYTES_LENGTH
         self.leafs_count = 0
         self.insert_nodes: List[InsertNode] = []
-
+        self.length = 0
     def insert(self, digits: List[int]) -> Tuple[bool, InsertNode]:
         self.file.seek(0)
         legth = len(digits)

@@ -1,5 +1,7 @@
 from typing import List
 from piece_key_constants import PIECE_KEY_BASE
+from array import array
+
 
 def  create_trie_stream_length(max: List[int]) -> List[int]:
     count = 1
@@ -26,6 +28,14 @@ def create_search_trie_stream(depth: int) -> List[int]:
     print(f'{total}')
     
     return list(0 for _ in range(total))
+
+
+def leafs_count(max: array[int]) -> int:
+    count = 1
+    for m in max:
+        count *= m
+    return count
+
 
 if  __name__ == '__main__':
     print(list(0 for _ in range(100)))

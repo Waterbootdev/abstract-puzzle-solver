@@ -1,7 +1,7 @@
 from piece_key_group_count  import PieceKeyGroupCount
 from piece_key_count import PieceKeyCount
 from piece_key_rotation_groups_generation import PIECE_KEYS_ROTATIONS_SHORT
-from trie import Trie
+from trie import TrieDict
 from asterisk_piece_keys import EDGES_TO_ASTERISK
 from typing import Dict, List, Tuple
 from collections.abc import Callable
@@ -22,7 +22,7 @@ class PieceKeyCounts:
         
         self.max : array[int] =  array('i', map(lambda x: x+1, filter(lambda x: x > 0 ,initial_piece_key_groups_counts.values())))
         self.length = len(self.max) - 1
-        self.root = Trie(self.max)
+        self.root = TrieDict(self.max)
         self.keys: array[int] = array('i', [0]*(self.length))
         self.last_current_count = 0
 
