@@ -20,7 +20,7 @@ import time
 DRIVE = "/mnt/g"
 
 FIRST_LINE = escape_position(3,1)
-SECOND_LINE = escape_position(5,1)
+SECOND_LINE = escape_position(6,1)
 
 def init(width: int, height: int):
     random: RandomPieceGenerator = RandomPieceGenerator(width, height, firts_frame_piece_keys=[PIECE_KEYS[0]], piece_keys=[p for p in PIECE_KEYS if '0' not in p])
