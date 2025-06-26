@@ -1,7 +1,9 @@
 from piece_key_piece import PieceKeyPiece, Directions, Coordinate, Callable, Edge
 from piece_keys import PIECE_KEYS
 from typing import List, Self
-from random import choice
+from random import choice, seed
+
+seed(1)
 
 class RandomPieceKeyPiece(PieceKeyPiece):
     

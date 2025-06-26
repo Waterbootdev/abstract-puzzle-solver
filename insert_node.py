@@ -14,3 +14,4 @@ class InsertNode:
 
     def get_value(self, index: int) -> InsertNodeValue|None:
         return self.indexes[index]
+

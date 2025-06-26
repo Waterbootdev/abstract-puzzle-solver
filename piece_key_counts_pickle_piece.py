@@ -6,7 +6,7 @@ from opposite_piece_keys import OPPOSITE_PIECE_KEYS
 from piece_key_count import PieceKeyCount
 from array import array
 from typing import List, Dict, Self, Tuple
-from search_trie import SearchDict, InsertNode
+from search_trie_pickle import SearchDict, InsertNode
 
 class PieceKeyCountsPiece(BasePiece):
     def __init__(self, piece_key_counts: Dict[str, Dict[str, List[PieceKeyCount]]], opposite_key: str, frame_index: int, rotation_index: int, rotated: bool, directions: List[Directions], coordinate: Coordinate, edges: List[Edge]) -> None:
@@ -91,8 +91,3 @@ def check(pieces: List[PieceKeyCountsPiece]) -> bool:
     for piece in pieces:
         ok = ok and piece.check()
     return ok
-
-
-    
-
-    

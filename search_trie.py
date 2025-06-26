@@ -35,7 +35,7 @@ class SearchDict:
             self.insert_nodes_count = self.index_pool.get_index(self.insert_nodes_count + 1)
             self.node_counter.increment()
             return True, insert_node
-    
+
 class SearchArray:
     def __init__(self, index_pool: IndexPool, node_counter: NodeCounter, depth: int) -> None:
         self.node_counter = node_counter
