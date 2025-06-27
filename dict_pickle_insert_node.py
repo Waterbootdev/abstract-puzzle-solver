@@ -10,18 +10,23 @@ class InsertNode:
         self.file = open(file_path, 'wb+')
         self.current_position = 0
         self.end_position = 0
-        self.reposition_length = 50
+        self.last_load_size = 0
+        self.empty_size = 0
         
     def init(self, leaf_index: int)-> None:
         self.leaf_index = leaf_index
         self.indexes = dict()
+        self.last_load_size = 0
+        
 
     def load(self, leaf_index: int) -> None:
         self.leaf_index = leaf_index
-        self.current_position = self.file.seek(self.positions[leaf_index] - self.current_position, 1)
+        current_position = self.file.seek(self.positions[leaf_index] - self.current_position, 1)
         self.indexes = load(self.file)
         self.current_position = self.file.tell()
-
+        self.last_load_size = self.current_position - current_position
+        assert self.last_load_size > 0
+        
     def append_index(self, index: int, value: InsertNodeValue|None = None) -> None:
         self.indexes[index] = value
         self.current_position = self.file.seek(self.end_position - self.current_position, 1)
@@ -30,11 +35,14 @@ class InsertNode:
         self.end_position = self.file.tell()
         self.current_position = self.end_position
 
-        if len(self.indexes) > self.reposition_length:
+        self.empty_size += self.last_load_size 
+        if self.empty_size * 1.2  > self.end_position:
+            assert self.end_position - self.empty_size > 0
+            print(f'{self.end_position} > {self.end_position - self.empty_size}')
             self.reposition()
+            self.empty_size = 0
+    
     def reposition(self) -> None:
-        print(f'reposition:{self.reposition_length}')
-        self.reposition_length *= 2
         write_position = 0
         self.file.seek(0)
         for leaf_index, position in sorted(self.positions.items(), key=lambda x: x[1]):
@@ -55,5 +63,3 @@ class InsertNode:
     
     def get_value(self, index: int) -> InsertNodeValue|None:
         return self.indexes[index]
-    
-   

@@ -22,14 +22,14 @@ DRIVE = "/mnt/g"
 FIRST_LINE = escape_position(3,1)
 SECOND_LINE = escape_position(6,1)
 
-def init_piece_key_counts_piece_generator(width: int, height: int):
+def init_piece_key_counts_piece_generator(width: int, height: int, pickle_directory_path_name: str):
     counts, first_frame, node_counter = init_random(width, height)
     generated_pieces: piece_key_counts_piece_generator.PieceKeyCountsPieceGenerator = piece_key_counts_piece_generator.PieceKeyCountsPieceGenerator(width, height, node_counter, first_frame, counts.asterisk_piece_key_counts)
     return counts, node_counter, generated_pieces.pieces
 
-def init_pickle_piece_key_counts_piece_generator(width: int, height: int):
+def init_pickle_piece_key_counts_piece_generator(width: int, height: int, pickle_directory_path_name: str):
     counts, first_frame, node_counter = init_random(width, height)
-    generated_pieces: pickle_piece_key_counts_piece_generator.PieceKeyCountsPieceGenerator = pickle_piece_key_counts_piece_generator.PieceKeyCountsPieceGenerator(width, height, path.join(DRIVE, "pickles"), node_counter, first_frame, counts.asterisk_piece_key_counts)
+    generated_pieces: pickle_piece_key_counts_piece_generator.PieceKeyCountsPieceGenerator = pickle_piece_key_counts_piece_generator.PieceKeyCountsPieceGenerator(width, height, pickle_directory_path_name, node_counter, first_frame, counts.asterisk_piece_key_counts)
     return counts, node_counter, generated_pieces.pieces
 
 def init_random(width: int, height: int):
@@ -39,29 +39,25 @@ def init_random(width: int, height: int):
     node_counter: NodeCounter = NodeCounter()
     return counts,first_frame,node_counter
 
-def init(generate: Callable[[int, int], Tuple[PieceKeyCounts, NodeCounter, List[T]]]):
+def init(generate: Callable[[int, int, str], Tuple[PieceKeyCounts, NodeCounter, List[T]]]):
     setrlimit(RLIMIT_NOFILE, (1000000, 1000000))
     system('clear')
     current_argv = sys.argv
     width, height, subdirctory = get_from_argvs(current_argv)
-    directory_path_name = path.join(DRIVE, subdirctory)
-    directory_path: Path = Path(directory_path_name)
-    if not directory_path.exists():
-        directory_path.mkdir()
-    counts, node_counter, pieces = generate(width, height)
+    solutions_directory_path_name = path.join(DRIVE, subdirctory)
+    make_directory(solutions_directory_path_name)
+    pickle_directory_path_name = path.join(DRIVE, f'{subdirctory}.pickle')
+    counts, node_counter, pieces = generate(width, height, pickle_directory_path_name)
     print(FIRST_LINE)
     start1 = time.time()
-    save_solutions(directory_path_name, node_counter, counts, pieces)
+    save_solutions(solutions_directory_path_name, node_counter, counts, pieces)
     end1 = time.time()
     print(SECOND_LINE)
     print(f'{end1 - start1}')
 
-def main():
-
-    init(init_piece_key_counts_piece_generator)
-    #init(init_pickle_piece_key_counts_piece_generator)
-
-if __name__ == '__main__':
-    main()
+def make_directory(directory_path_name : str):
+    directory_path: Path = Path(directory_path_name)
+    if not directory_path.exists():
+        directory_path.mkdir()
 
 
