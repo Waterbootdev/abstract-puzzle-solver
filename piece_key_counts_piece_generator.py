@@ -1,4 +1,4 @@
-from search_trie import SearchDict
+from insert_nodes import InsertNodes
 from opposite_piece_keys import DEFAULT_OPPOSITE_KEY
 from piece_generator import PieceGenerator
 from generate_not_rotated import generate_not_rotated
@@ -7,12 +7,11 @@ from edge import Edge
 from piece_key_counts_piece import PieceKeyCountsPiece
 from piece_key_count import PieceKeyCount
 from typing import Dict
-from index_pool import IndexPool
 from node_counter import NodeCounter
-from search_trie import array
+from insert_nodes import array
 
 class PieceKeyCountsPieceGenerator(PieceGenerator[PieceKeyCountsPiece]):
-    def __init__(self, width: int, height: int, index_pool : IndexPool, node_counter: NodeCounter, first_frame_piece_keys: List[str], piece_key_counts: Dict[str, Dict[str, List[PieceKeyCount]]], opposite_key: str = DEFAULT_OPPOSITE_KEY) -> None:
+    def __init__(self, width: int, height: int, node_counter: NodeCounter, first_frame_piece_keys: List[str], piece_key_counts: Dict[str, Dict[str, List[PieceKeyCount]]], opposite_key: str = DEFAULT_OPPOSITE_KEY) -> None:
         if width < 1 or height > width:
             raise ValueError()
 
@@ -40,7 +39,7 @@ class PieceKeyCountsPieceGenerator(PieceGenerator[PieceKeyCountsPiece]):
                 length -= 1
             if piece.coordinate.index >= first_index:
                 piece.down_keys = array('i', [0]*length)
-                piece.root = SearchDict(index_pool, node_counter, length + (1 if piece.rotated else 2))
+                piece.root = InsertNodes(node_counter, length + (1 if piece.rotated else 2))
             
      
             

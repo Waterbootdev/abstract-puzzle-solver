@@ -5,7 +5,7 @@ from typing import Set, Tuple
 from pickle_insert_node import InsertNode
 from pathlib import Path
 
-class SearchDict:
+class InsertNodes:
     def __init__(self, node_counter: NodeCounter, depth: int, directory_path_name: str) -> None:
         self.node_counter = node_counter
         self.length = PIECE_KEY_BASE ** depth
@@ -35,3 +35,7 @@ class SearchDict:
             self.insert_node.init(leaf_index)
             self.node_counter.increment()
             return True, self.insert_node
+        
+    def close(self) -> None:
+        pass
+        

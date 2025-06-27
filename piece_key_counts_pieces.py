@@ -1,7 +1,6 @@
 import piece_key_counts_piece
-import piece_key_counts_pickle_piece
-from extra_piece import ExtraPieceKeyCountsPiece
+import pickle_piece_key_counts_piece
 from typing import TypeVar
 
-T = TypeVar('T', piece_key_counts_piece.PieceKeyCountsPiece, piece_key_counts_pickle_piece.PieceKeyCountsPiece, ExtraPieceKeyCountsPiece)
+T = TypeVar('T', piece_key_counts_piece.PieceKeyCountsPiece, pickle_piece_key_counts_piece.PieceKeyCountsPiece)
 

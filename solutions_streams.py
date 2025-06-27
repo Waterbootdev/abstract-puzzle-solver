@@ -61,7 +61,8 @@ class SolutionWriteStreams(Generic[T]):
         for streams in self.solution_streams:
             for stream in streams:
                 stream.close()
-
+        for piece in self.pieces:
+            piece.root.close()
 
 class SolutionReadStreams:
 

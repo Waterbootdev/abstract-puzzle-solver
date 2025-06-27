@@ -4,11 +4,12 @@ from edge import Edge, OPPOSITE_EDGE, LEFT_UP_RIGHT_DOWN
 from rotation_matrix import INDEX_ROTATION_MATRIX
 from opposite_piece_keys import OPPOSITE_PIECE_KEYS
 from piece_key_count import PieceKeyCount
+from array import array
 from typing import List, Dict, Self, Tuple
-from search_trie_file import SearchTrieFile, InsertNode
-from os import path
+#from pickle_insert_nodes import InsertNodes, InsertNode
+from dict_pickle_insert_nodes import InsertNodes, InsertNode
 
-class ExtraPieceKeyCountsPiece(BasePiece):
+class PieceKeyCountsPiece(BasePiece):
     def __init__(self, piece_key_counts: Dict[str, Dict[str, List[PieceKeyCount]]], opposite_key: str, frame_index: int, rotation_index: int, rotated: bool, directions: List[Directions], coordinate: Coordinate, edges: List[Edge]) -> None:
         super().__init__(frame_index, rotation_index, rotated, directions, coordinate, edges)
         self.opposite_piece_keys = OPPOSITE_PIECE_KEYS[opposite_key]
@@ -18,28 +19,26 @@ class ExtraPieceKeyCountsPiece(BasePiece):
         self.rotation_matrix = rotation_matrix
         self.rotation = rotation_matrix[0]
         self.piece_key_counts = piece_key_counts[str(self.edges)]
-        self.down_keys: List[int] = []
-        self.pieces: List[ExtraPieceKeyCountsPiece] = []
-        self.root = SearchTrieFile(path.join("/mnt/g/search_trie", f'search_trie.{coordinate.index}.bytes'))
         self.asterisk_piece_key_list: List[str] = list(ASTERISK_PIECE_KEY)
-    
+        self.pre_trie_index = 0
+        self.down_keys: array[int]
+        self.pieces: List[PieceKeyCountsPiece]
+        self.root: InsertNodes
+        
     def __repr__(self) -> str:
         return self.rotated_piece_key()
  
     def pre_insert_nodes(self) -> None:
         for i, piece in enumerate(self.pieces):        
             self.down_keys[i] = piece.part(Edge.DOWN)
+        self.pre_trie_index = self.root.pre_insert(self.down_keys)
         
-    def insert_node(self) -> Tuple[bool, InsertNode]:
-
+    def insert_node(self) -> Tuple[bool, InsertNode]:       
         if self.rotated:
-            self.down_keys[-1] = self.part(Edge.DOWN)
+            return self.root.insert_last_digit(self.pre_trie_index, self.part(Edge.DOWN))
         else:
-            self.down_keys[-1] = self.part(Edge.RIGHT)
-            self.down_keys[-2] = self.part(Edge.DOWN)
-
-        return self.root.insert(self.down_keys)
-
+            return self.root.insert_last_digit(self.root.insert_digit(self.pre_trie_index, self.part(Edge.DOWN)), self.part(Edge.RIGHT))
+            
     def part(self,edge: Edge) -> int:
         return int(self.piece_key[edge])
 
@@ -84,13 +83,12 @@ class ExtraPieceKeyCountsPiece(BasePiece):
         return self.piece_key_counts[self.asterisk_piece_key()]
     
 
-def down_keys(down_keys:List[int], pieces:List[ExtraPieceKeyCountsPiece]) -> None:
+def down_keys(down_keys:List[int], pieces:List[PieceKeyCountsPiece]) -> None:
         for i, piece in enumerate(pieces):
            down_keys[i] = int(piece.piece_key[Edge.DOWN])
 
-def check(pieces: List[ExtraPieceKeyCountsPiece]) -> bool:
+def check(pieces: List[PieceKeyCountsPiece]) -> bool:
     ok = True
     for piece in pieces:
         ok = ok and piece.check()
     return ok
-

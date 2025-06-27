@@ -1,10 +1,9 @@
-from search_trie_pickle import SearchDict
 from opposite_piece_keys import DEFAULT_OPPOSITE_KEY
 from piece_generator import PieceGenerator
 from generate_not_rotated import generate_not_rotated
 from base_piece import Directions, Coordinate, List
 from edge import Edge
-from piece_key_counts_pickle_piece import PieceKeyCountsPiece
+from pickle_piece_key_counts_piece import PieceKeyCountsPiece, InsertNodes
 from piece_key_count import PieceKeyCount
 from typing import Dict
 from node_counter import NodeCounter
@@ -46,7 +45,7 @@ class PieceKeyCountsPieceGenerator(PieceGenerator[PieceKeyCountsPiece]):
                 length -= 1
             if piece.coordinate.index >= first_index:
                 piece.down_keys = array('i', [0]*length)
-                piece.root = SearchDict(node_counter, length + (1 if piece.rotated else 2), path.join(directory_path_name, str(piece.coordinate.index - first_index)))
+                piece.root = InsertNodes(node_counter, length + (1 if piece.rotated else 2), path.join(directory_path_name, str(piece.coordinate.index - first_index)))
             
      
             

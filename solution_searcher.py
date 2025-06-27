@@ -14,7 +14,7 @@ TOP_LEFT = escape_position(1,1)
 
 class SolutionSearcher(Generic[T]):
 
-    def __init__(self, index_pool: IndexPool, node_counter: NodeCounter, counts: PieceKeyCounts, pieces: List[T], append_solution: Callable[[int, int], int], append_solution_with_prefix: Callable[[int, int, InsertNodeValue], int], trie_length_sum: int) -> None:
+    def __init__(self, node_counter: NodeCounter, counts: PieceKeyCounts, pieces: List[T], append_solution: Callable[[int, int], int], append_solution_with_prefix: Callable[[int, int, InsertNodeValue], int], trie_length_sum: int) -> None:
         if len(pieces) < 1:
             raise ValueError()
         
@@ -28,8 +28,8 @@ class SolutionSearcher(Generic[T]):
         self.append_solution = append_solution
         self.append_solution_with_prefix = append_solution_with_prefix  
         self.first_index = self.search_stack[0].piece_key_counts_piece.coordinate.index
-        self.indexes: array[int] = array('i', [index_pool.zero]*self.stack_length)
-        self.index_pool = index_pool
+        self.indexes: array[int] = array('i', [0]*self.stack_length)
+        self.index_pool = IndexPool(1)
         self.node_counter = node_counter
         self.trie_length_sum = trie_length_sum
     
