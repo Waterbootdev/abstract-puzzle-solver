@@ -22,7 +22,7 @@ DRIVE = "/mnt/g"
 FIRST_LINE = escape_position(3,1)
 SECOND_LINE = escape_position(6,1)
 
-def init_piece_key_counts_piece_generator(width: int, height: int, pickle_directory_path_name: str):
+def init_piece_key_counts_piece_generator(width: int, height: int, _: str):
     counts, first_frame, node_counter = init_random(width, height)
     generated_pieces: piece_key_counts_piece_generator.PieceKeyCountsPieceGenerator = piece_key_counts_piece_generator.PieceKeyCountsPieceGenerator(width, height, node_counter, first_frame, counts.asterisk_piece_key_counts)
     return counts, node_counter, generated_pieces.pieces

@@ -80,19 +80,3 @@ class PieceKeyCountsPiece(BasePiece):
     
     def current_piece_key_counts(self) -> List[PieceKeyCount]:
         return self.piece_key_counts[self.asterisk_piece_key()]
-    
-
-def down_keys(down_keys:List[int], pieces:List[PieceKeyCountsPiece]) -> None:
-        for i, piece in enumerate(pieces):
-           down_keys[i] = int(piece.piece_key[Edge.DOWN])
-
-def check(pieces: List[PieceKeyCountsPiece]) -> bool:
-    ok = True
-    for piece in pieces:
-        ok = ok and piece.check()
-    return ok
-
-
-    
-
-    

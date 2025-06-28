@@ -6,16 +6,16 @@ from pathlib import Path
 
 T = TypeVar('T', WriteSolutionBytesStream, ReadSolutionBytesStream)
 
-def mkdir(directory_path: str) -> None:
-    path: Path = Path(directory_path)
-    if not path.exists():
-        path.mkdir()
+def mkdir(directory_name: str) -> None:
+    directory_path: Path = Path(directory_name)
+    if not directory_path.exists():
+        directory_path.mkdir()
 
-def init_solution_streams(path: str, length: int, solution: List[str], new_stream: Callable[[str, int, List[str]], T], create_directory: bool) -> List[List[T]]:
-    directory_paths: List[str] = [directory_path(path, i, create_directory) for i in range(length)]
+def init_solution_streams(directory_path: str, length: int, solution: List[str], new_stream: Callable[[str, int, List[str]], T], create_directory: bool) -> List[List[T]]:
+    directory_paths: List[str] = [solution_directory_path(directory_path, i, create_directory) for i in range(length)]
     return [[new_stream(path, j, solution) for j in range(i + 1) ] for i, path in enumerate(directory_paths)]
 
-def directory_path(directory_path: str, index: int, create_directory: bool) -> str:
+def solution_directory_path(directory_path: str, index: int, create_directory: bool) -> str:
 
     directory_path = path.join(directory_path, f'{index}')
 
