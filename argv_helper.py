@@ -1,7 +1,8 @@
-from typing import TypeVar, List
 from collections.abc import Callable
+from typing import List, TypeVar
 
 T = TypeVar("T", int, float)
+
 
 def cast_number(to_type: Callable[[str], T], number_str: str, default: T, minimum: T):
     try:
@@ -10,18 +11,21 @@ def cast_number(to_type: Callable[[str], T], number_str: str, default: T, minimu
         return default
     else:
         return value
-        
-def get_from_argvs(current_args: List[str], 
-                   width_def: int = 4, 
-                   height_def: int = 4,
-                   subdirctory_def: str = 'solutions') -> tuple[int, int, str]:
+
+
+def get_from_argvs(
+    current_args: List[str],
+    width_def: int = 4,
+    height_def: int = 4,
+    subdirctory_def: str = "solutions",
+) -> tuple[int, int, str]:
     width = width_def
     height = height_def
-    subdirctory = subdirctory_def    
+    subdirctory = subdirctory_def
     match len(current_args):
-        case 2:             
+        case 2:
             width = cast_number(int, current_args[1], width_def, 0)
-        case 3: 
+        case 3:
             width = cast_number(int, current_args[1], width_def, 0)
             height = cast_number(int, current_args[2], height_def, 0)
         case 4:
