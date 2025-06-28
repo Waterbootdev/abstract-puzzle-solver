@@ -22,7 +22,8 @@ class InsertNodes:
             current_stream_index = self.insert_digit(current_stream_index, digit)
         return current_stream_index
 
-    def insert_digit(self, stream_index: int, digit: int) -> int:
+    @staticmethod
+    def insert_digit(stream_index: int, digit: int) -> int:
         return (stream_index + digit) * PIECE_KEY_BASE
 
     def insert_last_digit(self, current_stream_index: int, last_digit: int) -> Tuple[bool, InsertNode]:
