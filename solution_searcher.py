@@ -76,4 +76,3 @@ class SolutionSearcher(Generic[T]):
                     piece = self.decrement()
             else:
                 piece = self.decrement()
-        self.searched
