@@ -18,7 +18,6 @@ class InsertNode:
         self.leaf_index = leaf_index
         self.indexes = {}
         self.last_load_size = 0
-        
 
     def load(self, leaf_index: int) -> None:
         self.leaf_index = leaf_index
@@ -26,7 +25,6 @@ class InsertNode:
         self.indexes = load(self.file)
         self.current_position = self.file.tell()
         self.last_load_size = self.current_position - current_position
-        assert self.last_load_size > 0
         
     def append_index(self, index: int, value: InsertNodeValue|None = None) -> None:
         self.indexes[index] = value
@@ -38,8 +36,6 @@ class InsertNode:
 
         self.empty_size += self.last_load_size 
         if self.empty_size * 1.2  > self.end_position:
-            assert self.end_position - self.empty_size > 0
-            print(f'{self.end_position} > {self.end_position - self.empty_size}')
             self.reposition()
             self.empty_size = 0
     
@@ -55,9 +51,7 @@ class InsertNode:
                 _ = self.file.seek(write_position - load_position, 1)
                 dump(self.indexes, self.file)
                 write_position = self.file.tell()
-                assert write_position < load_position
             else:
-                assert position == write_position
                 _ = load(self.file)
                 write_position = self.file.tell()
                 
