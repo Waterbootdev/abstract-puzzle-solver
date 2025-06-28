@@ -13,7 +13,7 @@ class Ring(Generic[T]):
             self.data = data[index]
 
         def increment(self, data: List[T]):
-            if self.forward == self or self.backward == self:
+            if self in (self.forward, self.backward):
                 raise Exception()
             node = Ring.RingNode(self.index + 1, data)
             node.backward = self
