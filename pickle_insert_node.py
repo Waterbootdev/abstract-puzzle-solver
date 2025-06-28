@@ -1,13 +1,15 @@
 from insert_node_value import InsertNodeValue
 from pickle import load, dump
 from os import path
-from typing import Dict
+from typing import Dict, BinaryIO
 
 class InsertNode:
     def __init__(self, directory_path: str) -> None:
         self.indexes: Dict[int, InsertNodeValue|None]
         self.directory_path = directory_path
-
+        self.file_name: str
+        self.file: BinaryIO
+        
     def init(self, index: int)-> None:
         self.set_file_name(index)
         self.file = open(self.file_name, 'wb')

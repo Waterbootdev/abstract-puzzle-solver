@@ -12,6 +12,7 @@ class InsertNode:
         self.end_position = 0
         self.last_load_size = 0
         self.empty_size = 0
+        self.leaf_index: int
         
     def init(self, leaf_index: int)-> None:
         self.leaf_index = leaf_index
