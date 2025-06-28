@@ -15,7 +15,8 @@ class PieceKeyPiecePrinter:
         self.red_count = 0
         self.green_count = 0
 
-    def print_pieces(self, pieces: List[KeyPiece],  edge : Edge, color: EscapeColor):
+    @staticmethod
+    def print_pieces(pieces: List[KeyPiece],  edge : Edge, color: EscapeColor):
         print(color.value)
         for piece in pieces:
             print_piece_key_edge(piece, edge)

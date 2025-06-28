@@ -15,7 +15,8 @@ class PrintPositions:
         coordinate = coordinate.scale_add(self.scale_x, self.scale_y, self.x, self.y)
         return [intit_position(coordinate, directions)  for directions in directions]
     
-    def empty_print_positions(self, coordinate: Coordinate, directions: List[Directions]) -> List[str]:
+    @staticmethod
+    def empty_print_positions(coordinate: Coordinate, directions: List[Directions]) -> List[str]:
         return PrintPositions.EMPTY
     
 DEFAULT_PRINT_POSITIONS: PrintPositions = PrintPositions()
