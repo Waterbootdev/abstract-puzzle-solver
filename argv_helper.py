@@ -3,9 +3,9 @@ from collections.abc import Callable
 
 T = TypeVar("T", int, float)
 
-def cast_number(type: Callable[[str], T], number_str: str, default: T, minimum: T):
+def cast_number(to_type: Callable[[str], T], number_str: str, default: T, minimum: T):
     try:
-        value = max(minimum, type(number_str))
+        value = max(minimum, to_type(number_str))
     except Exception:
         return default
     else:
