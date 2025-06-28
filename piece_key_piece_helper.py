@@ -11,7 +11,7 @@ def print_key_groups_counts(pieces: List[T]) -> Dict[str, Dict[str, int]]:
         f = dict(filter(lambda t: t[1]> 0, group.items()))
         count = sum(f.values())
         if count:
-            print('{}\t{}'.format(count ,f))
+            print(f'{count}\t{f}')
     return counts
 
 
