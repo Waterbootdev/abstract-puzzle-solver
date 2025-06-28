@@ -19,5 +19,3 @@ def copy_piece_key_counts_greater_zero(source: List[PieceKeyCount], distination:
 
     return length
             
-if __name__ == '__main__':
-    pass

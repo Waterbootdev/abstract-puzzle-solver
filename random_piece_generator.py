@@ -38,5 +38,3 @@ class RandomPieceGenerator(PieceGenerator[RandomPieceKeyPiece]):
     def bottom_right(self) -> PieceKeyPiece:
         return self.spiral[self.turns[1]]
         
-if __name__ == '__main__':
-    pass

@@ -36,6 +36,3 @@ class PieceKeyCounts:
                 self.last_current_count = piece_key_count.current_count
 
         return self.root.insert(self.keys, self.last_current_count, next)        
-
-if __name__ == '__main__':
-    pass

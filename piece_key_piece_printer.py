@@ -59,11 +59,3 @@ class PieceKeyPiecePrinter:
         print(color.value)
         print(f'color_count = {count}')
         
-
-if __name__ == '__main__':
-   pass
-
-    
-
-
-        

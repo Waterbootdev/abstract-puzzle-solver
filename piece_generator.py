@@ -15,8 +15,3 @@ class PieceGenerator(Generic[Piece]):
         return generate_linked_base_pieces(get_new_base_piece, self.frame_index, self.rotation_index, self.rotated, self.directions, self.coordinates, self.edges, self.links, self.forward, self.backward)
        
     
-if __name__ == '__main__':
-    pass
-
-
-    
