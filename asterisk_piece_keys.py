@@ -24,11 +24,4 @@ def asterisk_to_piece_keys(edges: List[Edge]) -> Dict[str, List[str]]:
 
 EDGES_TO_ASTERISK: Dict[str, Dict[str, List[str]]] = dict(zip(EDGES.keys(), map(asterisk_to_piece_keys, EDGES.values())))
 
-if __name__ == '__main__':
-  pass
-
-
-
-    
-
 

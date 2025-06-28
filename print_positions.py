@@ -20,6 +20,3 @@ class PrintPositions:
         return PrintPositions.EMPTY
     
 DEFAULT_PRINT_POSITIONS: PrintPositions = PrintPositions()
-
-if __name__ == '__main__':
-    pass

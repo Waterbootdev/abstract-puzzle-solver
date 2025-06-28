@@ -22,5 +22,3 @@ def pad_zeros(significant: str) -> str:
     
     return ''.join(['0']*(PIECE_KEY_NUMBER_DIGITS - len(significant))) + significant
     
-if __name__ == '__main__':
-    pass
