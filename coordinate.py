@@ -1,5 +1,7 @@
 from directions import Directions
-from typing import List
+from typing import List, TypeVar
+
+T = TypeVar("T")
 
 class Coordinate:
 
@@ -31,19 +33,19 @@ class Coordinate:
     def down(self, directions: Directions):
         return directions.y.add_to(self.x, self.y)
 
-    def matix_left[T](self, matrix: List[List[T]], directions: Directions):
+    def matrix_left[T](self, matrix: List[List[T]], directions: Directions):
         x, y = self.left(directions)
         return matrix[x][y]
     
-    def matix_up[T](self, matrix: List[List[T]], directions: Directions):
+    def matrix_up[T](self, matrix: List[List[T]], directions: Directions):
         x, y = self.up(directions)
         return matrix[x][y]
 
-    def matix_right[T](self, matrix: List[List[T]], directions: Directions):
+    def matrix_right[T](self, matrix: List[List[T]], directions: Directions):
         x, y = self.right(directions)
         return matrix[x][y]
     
-    def matix_down[T](self, matrix: List[List[T]] , directions: Directions):
+    def matrix_down[T](self, matrix: List[List[T]] , directions: Directions):
         x, y = self.down(directions)
         return matrix[x][y]
     

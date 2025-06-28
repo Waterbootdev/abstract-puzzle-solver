@@ -42,7 +42,7 @@ def generate_links(width: int, height: int, directions: List[List[Directions]], 
     matrix = to_matrix(width, height, coordinates)
     
     def links(coordinate: Coordinate, directions: List[Directions]) -> List[int|None]:
-        return list(map(lambda direction: coordinate.matix_left(matrix, direction) ,directions))
+        return list(map(lambda direction: coordinate.matrix_left(matrix, direction) ,directions))
         
     return list(starmap(links, zip(coordinates, directions)))
 
