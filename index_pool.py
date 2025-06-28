@@ -2,7 +2,6 @@ from array import array
 
 class IndexPool:
     def __init__(self, offset: int) -> None:
-        assert offset > 0
         self.offset = offset
         self.zero = 0
         self.last_index = self.zero

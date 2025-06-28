@@ -40,10 +40,7 @@ def generate_rotated(width: int, height: int, length: int) -> List[bool]:
                 pass
     
     rotated = list(chain.from_iterable(map(lambda steps_without_rotation : [False for _ in range(steps_without_rotation - 1)] + [True], step_counts)))
-
     rotated[-1] = False
-
-    assert length == width * height
     return rotated    
 
 def generate_frame_index(rotated: List[bool]) -> Tuple[List[int], List[int]]:

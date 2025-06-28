@@ -63,13 +63,15 @@ class SolutionSearcher(Generic[T]):
                     if self.has_not_visited_before(piece):
                         piece = self.increment(solutions_count)
                     else:
-                        assert piece.insert_node is not None
-                        insert_node_value = piece.insert_node.get_value(piece.insert_index)
-                        if insert_node_value is not None:
-                            solutions_count = self.append_solution_with_prefix(solutions_count, self.stack_index, insert_node_value)
-                        if print_visited_before_count:
-                            print(TOP_LEFT)
-                            print(f'{solutions_count}:{self.counts.root.leafs_count}/{self.counts.root.length}:{self.node_counter.count}/{self.trie_length_sum}')
+                        if piece.insert_node is not None:
+                            insert_node_value = piece.insert_node.get_value(piece.insert_index)
+                            if insert_node_value is not None:
+                                solutions_count = self.append_solution_with_prefix(solutions_count, self.stack_index, insert_node_value)
+                            if print_visited_before_count:
+                                print(TOP_LEFT)
+                                print(f'{solutions_count}:{self.counts.root.leafs_count}/{self.counts.root.length}:{self.node_counter.count}/{self.trie_length_sum}')
+                        else:
+                            raise Exception()
                 else:
                     solutions_count = self.append_solution(solutions_count, self.stack_index)
                     piece.last_next()
