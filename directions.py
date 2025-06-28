@@ -1,7 +1,6 @@
 from normal_vector import NormalVector
 from ring import List, Ring
 from copy import deepcopy
-from itertools import chain
 
 class Directions:
     def __init__(self) -> None:
@@ -52,11 +51,10 @@ def directions_list():
         
     return directions
 
-    
-def directions_list_list(directions_list: List[Directions]) -> List[List[Directions]]:
-    number_direction = len(directions_list)
+def directions_list_list() -> List[List[Directions]]:
+    number_direction = len(DIRECTIONSLIST)
 
-    ring = Ring[Directions](directions_list)
+    ring = Ring[Directions](DIRECTIONSLIST)
 
     ring_list: List[List[Directions]] = [[] for _ in range(number_direction)]
 
@@ -69,13 +67,6 @@ def directions_list_list(directions_list: List[Directions]) -> List[List[Directi
         
 
     return ring_list
-
-DIRECTIONSLIST = directions_list()
-DIRECTIONSLISTLIST = directions_list_list(DIRECTIONSLIST)
-
-
     
-if __name__ == '__main__':
-    print(set(DIRECTIONSLIST))
-
-    print(set(chain.from_iterable(DIRECTIONSLISTLIST)))
+DIRECTIONSLIST = directions_list()
+DIRECTIONSLISTLIST = directions_list_list()
