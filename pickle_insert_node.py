@@ -11,7 +11,7 @@ class InsertNode:
     def init(self, index: int)-> None:
         self.set_file_name(index)
         self.file = open(self.file_name, 'wb')
-        self.indexes = dict()
+        self.indexes = {}
         
     def set_file_name(self, index: int)-> None:
         self.file_name = path.join(self.directory_path, f'{index}.pickle')
