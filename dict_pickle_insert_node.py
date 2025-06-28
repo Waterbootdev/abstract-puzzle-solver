@@ -15,7 +15,7 @@ class InsertNode:
         
     def init(self, leaf_index: int)-> None:
         self.leaf_index = leaf_index
-        self.indexes = dict()
+        self.indexes = {}
         self.last_load_size = 0
         
 

@@ -4,7 +4,7 @@ from typing import Dict
 
 class InsertNode:
     def __init__(self) -> None:
-        self.indexes: Dict[int, InsertNodeValue|None] = dict()
+        self.indexes: Dict[int, InsertNodeValue|None] = {}
 
     def append_index(self, index: int, value: InsertNodeValue|None = None) -> None:
         self.indexes[index] = value

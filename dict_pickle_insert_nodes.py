@@ -8,7 +8,7 @@ class InsertNodes:
     def __init__(self, node_counter: NodeCounter, depth: int, file_path_name: str) -> None:
         self.node_counter = node_counter
         self.length = PIECE_KEY_BASE ** depth
-        self.leafs: Dict[int, int] = dict()
+        self.leafs: Dict[int, int] = {}
         self.insert_node: InsertNode = InsertNode(file_path_name, self.leafs)
 
     def pre_insert(self, digits: array[int]) -> int:

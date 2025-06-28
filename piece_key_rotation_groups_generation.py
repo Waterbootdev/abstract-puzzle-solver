@@ -26,7 +26,7 @@ def shorten_rotation_group(group: List[str]) -> List[str]:
 
 def generate_rotation_groups(rotation: Callable[[str], str]=rotate_piece_ccw) -> Dict[str,Tuple[List[str], List[str]]]:
     done: set[str] = set()
-    groups: Dict[str,Tuple[List[str], List[str]]] = dict()
+    groups: Dict[str,Tuple[List[str], List[str]]] = {}
     for piece in PIECE_KEYS:
         if piece not in done:
             group = piece_rotation_group(rotation, piece)
