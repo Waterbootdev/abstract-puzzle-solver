@@ -55,6 +55,11 @@ class InsertNode:
                 dump(self.indexes, self.file)
                 write_position = self.file.tell()
                 assert write_position < load_position
+            else:
+                assert position == write_position
+                _ = load(self.file)
+                write_position = self.file.tell()
+                
         self.current_position = write_position
         self.end_position = write_position
 
