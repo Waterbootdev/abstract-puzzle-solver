@@ -12,7 +12,7 @@ def  create_trie_stream_length(max: List[int]) -> List[int]:
     total += count
     
     print(total)
-    return list(0 for _ in range(total))
+    return [0 for _ in range(total)]
 
 
 def create_search_trie_stream(depth: int) -> List[int]:
@@ -27,7 +27,7 @@ def create_search_trie_stream(depth: int) -> List[int]:
     
     print(f'{total}')
     
-    return list(0 for _ in range(total))
+    return [0 for _ in range(total)]
 
 
 def leafs_count(max: array[int]) -> int:
@@ -38,4 +38,4 @@ def leafs_count(max: array[int]) -> int:
 
 
 if  __name__ == '__main__':
-    print(list(0 for _ in range(100)))
+    print([0 for _ in range(100)])
