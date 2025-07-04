@@ -6,7 +6,7 @@ from spiral__helper import List, generate_coordinates, incremented_coordinate, g
 from typing import Tuple
 from edge import Edge, LEFT_UP, LEFT_UP_RIGHT, LEFT_UP_DOWN, LEFT_UP_RIGHT_DOWN
 
-def generate_rotated(width: int, height: int, length: int) -> List[bool]:
+def generate_rotated(width: int, height: int) -> List[bool]:
 
     if height > width or width < 2 or height < 2:
         raise Exception()

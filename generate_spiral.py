@@ -3,10 +3,8 @@ from spiral_helper import Directions, Coordinate, List, Tuple, Edge, generate_ro
 def generate_spiral(width: int, height: int) -> Tuple[List[bool], List[int], List[int], List[List[Directions]], List[Coordinate], List[List[int|None]], List[int|None], List[int|None], List[int], List[List[Edge]]]:
     if height > width or width < 2 or height < 2:
         raise Exception()
-
-    length = width * height
       
-    rotated = generate_rotated(width, height, length)
+    rotated = generate_rotated(width, height)
 
     frame_index, rotation_index = generate_frame_index(rotated)
 
@@ -14,6 +12,8 @@ def generate_spiral(width: int, height: int) -> Tuple[List[bool], List[int], Lis
 
     coordinates, links = generate_coordinates_and_links(width, height, rotated, directions)
 
+    length = width * height
+    
     forward = generate_forward(length)
     backward = generate_backward(length)
 
